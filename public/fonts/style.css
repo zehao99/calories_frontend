@@ -1,0 +1,34 @@
+/* https://stackoverflow.com/questions/61909298/how-to-use-self-hosted-fonts-face-using-nextjs */
+/*@font-face {*/
+/*  font-family: 'Quicksand';*/
+/*  src: url("Quicksand-VariableFont_wght.ttf") format('truetype');*/
+/*  font-style: normal;*/
+/*}*/
+
+@font-face {
+  font-family: 'Quicksand';
+  src: url("Quicksand-Bold.ttf") format('truetype');
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  src: url("Quicksand-Medium.ttf") format('truetype');
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  src: url("Quicksand-Regular.ttf") format('truetype');
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  src: url("Quicksand-Light.ttf") format('truetype');
+  font-style: normal;
+  font-weight: 300;
+}

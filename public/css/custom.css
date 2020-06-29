@@ -1,0 +1,114 @@
+* {
+  block-size: border-box;
+}
+
+.ant-menu-horizontal {
+  border-bottom: none !important;
+}
+
+.ant-menu {
+  font-size: 16px !important;
+}
+
+.ant-card-body {
+  height: 100%;
+}
+
+.ant-menu {
+  background: none !important;
+}
+
+.ant-input-search {
+  background: none !important;
+}
+
+.ant-input-group-addon {
+  background: none;
+  border: none;
+}
+
+.ant-input-group-addon {
+  background: none !important;
+  padding: 0 10px !important;
+}
+
+
+.ant-input-group > .ant-input:first-child, .ant-input-group-addon:first-child {
+  border-radius: 10px !important;
+}
+
+.ant-input-group > .ant-input:first-child, .ant-input-group-addon:first-child {
+  border-radius: 10px !important;
+}
+
+.ant-input-search-enter-button + .ant-input-group-addon .ant-input-search-button, .ant-input-search-enter-button input + .ant-input-group-addon .ant-input-search-button {
+  border-radius: 10px !important;
+}
+
+.ant-input-search-enter-button + .ant-input-group-addon .ant-input-search-button, .ant-input-search-enter-button input + .ant-input-group-addon .ant-input-search-button {
+  border-radius: 10px !important;
+}
+
+.ant-tag {
+  border: none !important;
+}
+
+.ant-tag:hover {
+  cursor: pointer !important;
+}
+
+.ant-card-hoverable:hover {
+  transform: scale(1.03);
+}
+
+.navbar-bg {
+  z-index: 10;
+}
+
+.container {
+  margin: 0 auto;
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  background: none;
+}
+
+.container::before {
+  content: '';
+  z-index: -10;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  background: url("/background-blured.jpg") no-repeat center center/cover;
+}
+
+.navbar-bg {
+  width: 100%;
+  background: rgba(208, 217, 209, 0.8);
+  top: 0;
+  position: fixed;
+}
+
+.navbar {
+  max-width: 1000px;
+  margin: auto;
+  padding-left: 1rem;
+}
+
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+  padding: 16px 40px !important;
+}
+
+.ant-card{
+  background-color: rgba(255,255,255,0.7) !important;
+  border: 0px!important;
+}
+
+@media (max-width: 500px) {
+  .ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+    padding: 16px 16px !important;
+  }
+
+}
