@@ -1,50 +1,25 @@
-import {useState} from "react";
-import {Input} from 'antd';
-import FoodCard from "../components/food-card";
-import {SearchResponse} from "../types/food";
+import {useRouter} from 'next/router'
+import React from "react";
+import FoodCard from "../../components/food-card";
+import SearchBar from "../../components/SearchBar";
+import {GetServerSideProps} from "next";
+import { SearchResponse} from "../../types/food";
 import {motion} from "framer-motion";
-import Router from 'next/router'
-import SearchBar from "../components/SearchBar";
 
-const {Search} = Input;
-
-export default function Home({data}) {
-
-  const [results, setResults] = useState<SearchResponse>([]);
-
-  const search = async (keyword) => {
-    Router.push({
-      pathname: '/search',
-      query: {q: keyword},
-    })
-    // this.setState(items.clicked = true);
-    // const data = await fetch(`http://35.231.40.139:8000/api/search?keywords=${keyword}`).then((response) => {
-    //   if (response.ok) {
-    //     return response.json();
-    //   } else {
-    //     return [{
-    //       fdc_id: 0,
-    //       name: "Nothing Found",
-    //       category: "",
-    //       brand: "",
-    //       gtin_upc: "",
-    //       nutrition: []
-    //     }];
-    //   }
-    // });
-    // setResults(data);
-  }
-
+const Post = (props) => {
+  const router = useRouter()
+  // @ts-ignore
+  const q: string = router.query.q
+  const {results} = props;
   return (
     <div className="content-container">
-      <motion.div initial={{opacity: 0, y: 100, width: "100%"}} animate={{opacity: 1, y: 0, width: "100%"}}
-                  exit={{opacity: 0, y: 0, width: "100%"}}>
-        <div className="searcharea">
+      <motion.div initial={{opacity: 1, y: -200, width : "100%"}} animate={{opacity: 1, y: 0 , width : "100%"}}
+                  exit={{opacity: 0, y: 0 , width : "100%"}}>
+      <div className="searcharea">
 
-          <h1 id= "1" >Burn Your Fat Off!</h1>
-
-          <SearchBar value={""}/>
-        </div>
+        {/*<h1 id= "1" >Burn Your Fat Off!</h1>*/}
+        <SearchBar value={q}/>
+      </div>
       </motion.div>
       <div className="results">
         {
@@ -74,6 +49,7 @@ export default function Home({data}) {
           maxwidth: 600px;
           width: 100%;
           margin: 1rem auto;
+          margin-top: 5re;
           /*transform: translateY(-100px);*/
         }
 
@@ -97,7 +73,7 @@ export default function Home({data}) {
         }
 
         h1 {
-          color: #323732;
+          color: #345C44;
           font-size: 3rem;
         }
 
@@ -143,11 +119,16 @@ export default function Home({data}) {
           }
 
           h1 {
-            color: #323732;
+            color: #345C44;
             font-size: 1.5rem;
-            margin-top: 0rem;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
           }
-
+          
+          .searcharea{
+            margin-top: 5rem;
+          }
+          
           .results {
             grid-template-columns: 1fr;
             align-items: center;
@@ -160,12 +141,26 @@ export default function Home({data}) {
 
   )
 }
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  console.log("enter")
+  const {query} = context;
+  const results: SearchResponse = await fetch(`http://35.231.40.139:8000/api/search?keywords=${query.q}`).then((response) => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      return [{
+        fdc_id: 0,
+        name: "Nothing Found",
+        category: "",
+        brand: "",
+        gtin_upc: "",
+        nutrition: []
+      }];
+    }
+  });
+  return {
+    props: {results}
+  }
+}
 
-// export async function getServerSideProps() {
-//   // Fetch data from external API
-//   const res = await fetch(`http://localhost:8000/food/742612`)
-//   const data = await res.json()
-//   console.log(data)
-//   // Pass data to the page via props
-//   return {props: {data}}
-// }
+export default Post

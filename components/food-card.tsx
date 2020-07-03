@@ -1,4 +1,4 @@
-import {Card, Tag} from 'antd';
+import {Card} from 'antd';
 import {Food} from "../types/food";
 import NutritionTags from "./nutrition-tags";
 import Link from "next/link";
@@ -35,6 +35,6 @@ const food_card = (prop) => {
 
 export default function FoodCard(food: Food) {
   return <Link as={`/details/${food.fdc_id}`} href="/details/[foodid]">
-    <a className="foodcard-link" target="_blank" style={{height: "100%"}}>{food_card(food)}</a>
+    <a className="foodcard-link" style={{height: "100%"}}>{food_card(food)}</a>
   </Link>
 }

@@ -18,6 +18,10 @@
   background: none !important;
 }
 
+.ant-input{
+  border: 1.5px solid rgba(116, 119, 104, 0.9) !important;
+}
+
 .ant-input-search {
   background: none !important;
 }

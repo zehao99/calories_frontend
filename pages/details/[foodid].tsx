@@ -4,21 +4,24 @@ import {Table} from "antd";
 import dynamic from "next/dynamic";
 import SimpleBarcode from "../../components/barcode";
 import React from "react";
+import {GetServerSideProps} from "next";
+import {motion} from "framer-motion";
 
 const PieChart = dynamic(
   () => import('../../components/pie-chart'),
   {ssr: false}
 )
 type FoodDetailProps = {
-  err: {
-    statusCode: number
-  },
-  foodDetail: FoodDetail
+  props: {
+    err: {
+      statusCode: number
+    },
+    foodDetail: FoodDetail
+  }
 }
-export default function FoodDetailPage(props: FoodDetailProps) {
-  const {err, foodDetail} = props
-  if (err) {
-    return <ErrorPage statusCode={err.statusCode}/>
+export default function FoodDetailPage(foodDetail: FoodDetail) {
+  if (foodDetail === null) {
+    return <ErrorPage statusCode={404}/>
   }
   const protein = foodDetail.nutrition.find(x => x.metric_name === "Protein").amount
   const carb = foodDetail.nutrition.find(x => x.metric_name === 'Carbohydrate, by difference').amount
@@ -43,7 +46,9 @@ export default function FoodDetailPage(props: FoodDetailProps) {
       key: 'unit_name',
       render: text => <span style={{fontWeight: 500}}>{text}</span>,
     }]
-  return <div className="food-detail-container">
+  return <motion.div initial={{opacity: 0, y: -200, width : "100%"}} animate={{opacity: 1, y: 0 , width : "100%"}}
+                     exit={{opacity: 0, y: 0 , width : "100%"}}>
+    <div className="food-detail-container">
     <div className="food-detail">
       <div className="detail-grid">
         <h1 className="food-detail-title"
@@ -63,7 +68,9 @@ export default function FoodDetailPage(props: FoodDetailProps) {
           <PieChart protein={protein} carb={carb} fat={fat}/>
         </div>
       </div>
-      <Table columns={columns} dataSource={foodDetail.nutrition} pagination={false} className="food-detail-table"/>
+      <Table columns={columns} dataSource={foodDetail.nutrition} pagination={false} rowKey="metric_name"
+             className="food-detail-table"/>
+    </div>
     </div>
     { /*language=CSS*/}
     <style jsx>{
@@ -186,18 +193,14 @@ export default function FoodDetailPage(props: FoodDetailProps) {
     }
 
     </style>
-  </div>
+  </motion.div>
 }
 
-FoodDetailPage.getInitialProps = async (context) => {
-  const {query} = context;
-  const response = await fetch('http://localhost:8000/food?fdc_id=' + query.foodid);
-  if (response.ok) {
-    const foodDetail = await response.json();
-    return {foodDetail};
-  } else {
-    return {
-      err: {statusCode: 404}
-    };
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const {params} = context;
+  const response = await fetch('http://localhost:8000/api/food?fdc_id=' + params.foodid);
+  const foodDetail: FoodDetail = response.ok ? (await response.json()) : null;
+  return {
+    props: foodDetail
   }
 }

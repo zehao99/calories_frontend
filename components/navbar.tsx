@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import {Layout, Menu} from 'antd';
+import {Menu} from 'antd';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 
