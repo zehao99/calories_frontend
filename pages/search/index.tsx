@@ -1,25 +1,45 @@
-import {useRouter} from 'next/router'
-import React from "react";
+import Router, {useRouter} from 'next/router'
+import React, {useEffect} from "react";
 import FoodCard from "../../components/food-card";
 import SearchBar from "../../components/SearchBar";
 import {GetServerSideProps} from "next";
-import { SearchResponse} from "../../types/food";
+import {SearchResponse} from "../../types/food";
 import {motion} from "framer-motion";
+import {Pagination} from "antd";
+
+const BACKEND_HOST = process.env.BACKEND_HOST;
+
+const BACKEND_PORT = process.env.BACKEND_PORT;
+const COUNT_PER_PAGE = 12;
 
 const Post = (props) => {
   const router = useRouter()
   // @ts-ignore
   const q: string = router.query.q
-  const {results} = props;
+  const results = props.food;
+
+  const totalPages = Math.ceil(10 * props.total / 12);
+  const currentPage = props.currentPage;
+
+  function changePages(page) {
+    Router.push({
+      pathname: '/search',
+      query: {
+        q: q,
+        page: page
+      },
+    }).then(() => window.scrollTo(0, 0));
+  }
+
   return (
     <div className="content-container">
-      <motion.div initial={{opacity: 1, y: -200, width : "100%"}} animate={{opacity: 1, y: 0 , width : "100%"}}
-                  exit={{opacity: 0, y: 0 , width : "100%"}}>
-      <div className="searcharea">
+      <motion.div initial={{opacity: 1, y: -200, width: "100%"}} animate={{opacity: 1, y: 0, width: "100%"}}
+                  exit={{opacity: 0, y: 0, width: "100%"}}>
+        <div className="searcharea">
 
-        {/*<h1 id= "1" >Burn Your Fat Off!</h1>*/}
-        <SearchBar value={q}/>
-      </div>
+          {/*<h1 id= "1" >Burn Your Fat Off!</h1>*/}
+          <SearchBar value={q}/>
+        </div>
       </motion.div>
       <div className="results">
         {
@@ -28,14 +48,14 @@ const Post = (props) => {
           })
         }
       </div>
+      <Pagination defaultCurrent={1} current={currentPage} total={totalPages} onChange={changePages}/>
       { /*language=CSS*/}
       <style jsx>{`
         .content-container {
           margin: auto;
           max-width: 1000px;
           display: flex;
-          padding: 0 1rem;
-          min-height: 100vh;
+          padding: 0 1rem 2rem;
           flex-direction: column;
           align-items: center;
           justify-content: center;
@@ -49,7 +69,7 @@ const Post = (props) => {
           maxwidth: 600px;
           width: 100%;
           margin: 1rem auto;
-          margin-top: 5re;
+          margin-top: 5rem;
           /*transform: translateY(-100px);*/
         }
 
@@ -60,7 +80,7 @@ const Post = (props) => {
           grid-gap: 1rem;
           align-items: center;
           margin-top: 0.5rem;
-          margin-bottom: 2rem;
+          margin-bottom: 3rem;
         }
 
         main {
@@ -124,11 +144,11 @@ const Post = (props) => {
             margin-top: 1rem;
             margin-bottom: 1rem;
           }
-          
-          .searcharea{
+
+          .searcharea {
             margin-top: 5rem;
           }
-          
+
           .results {
             grid-template-columns: 1fr;
             align-items: center;
@@ -142,24 +162,29 @@ const Post = (props) => {
   )
 }
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  console.log("enter")
   const {query} = context;
-  const results: SearchResponse = await fetch(`http://35.231.40.139:8000/api/search?keywords=${query.q}`).then((response) => {
-    if (response.ok) {
-      return response.json();
-    } else {
-      return [{
-        fdc_id: 0,
-        name: "Nothing Found",
-        category: "",
-        brand: "",
-        gtin_upc: "",
-        nutrition: []
-      }];
-    }
-  });
+  // @ts-ignore
+  const page: number = query.page ? parseInt(query.page) : 1;
+  const offset = (page - 1) * COUNT_PER_PAGE;
+
+  const results: SearchResponse = await
+    fetch(`http://${BACKEND_HOST}:${BACKEND_PORT}/api/search?keywords=${query.q}&offset=${offset}&limit=${COUNT_PER_PAGE}`)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return [{
+            fdc_id: 0,
+            name: "Nothing Found",
+            category: "",
+            brand: "",
+            gtin_upc: "",
+            nutrition: []
+          }];
+        }
+      });
   return {
-    props: {results}
+    props: {currentPage: page, ...results}
   }
 }
 

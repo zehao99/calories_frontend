@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Input} from 'antd';
 import FoodCard from "../components/food-card";
 import {SearchResponse} from "../types/food";
@@ -9,14 +9,21 @@ import SearchBar from "../components/SearchBar";
 const {Search} = Input;
 
 export default function Home({data}) {
-
+  useEffect(() => {
+    //
+    console.log("herere!!")
+    var WINDOW_SIZE = window.innerHeight;
+    var div = document.getElementsByClassName('container')[0];
+    console.log(div)
+    div.setAttribute('style', `height:${WINDOW_SIZE}px`);
+  });
   const [results, setResults] = useState<SearchResponse>([]);
 
   const search = async (keyword) => {
     Router.push({
       pathname: '/search',
       query: {q: keyword},
-    })
+    }).then(() => window.scrollTo(0, 0));
     // this.setState(items.clicked = true);
     // const data = await fetch(`http://35.231.40.139:8000/api/search?keywords=${keyword}`).then((response) => {
     //   if (response.ok) {
@@ -60,7 +67,7 @@ export default function Home({data}) {
           max-width: 1000px;
           display: flex;
           padding: 0 1rem;
-          min-height: 100vh;
+          min-height: 100%;
           flex-direction: column;
           align-items: center;
           justify-content: center;

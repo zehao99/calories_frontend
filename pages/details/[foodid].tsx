@@ -6,6 +6,9 @@ import SimpleBarcode from "../../components/barcode";
 import React from "react";
 import {GetServerSideProps} from "next";
 import {motion} from "framer-motion";
+const BACKEND_HOST = process.env.BACKEND_HOST ;
+
+const BACKEND_PORT = process.env.BACKEND_PORT ;
 
 const PieChart = dynamic(
   () => import('../../components/pie-chart'),
@@ -198,7 +201,7 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {params} = context;
-  const response = await fetch('http://localhost:8000/api/food?fdc_id=' + params.foodid);
+  const response = await fetch(`http://${BACKEND_HOST}:${BACKEND_PORT}/api/food?fdc_id=` + params.foodid);
   const foodDetail: FoodDetail = response.ok ? (await response.json()) : null;
   return {
     props: foodDetail

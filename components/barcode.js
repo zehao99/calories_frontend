@@ -50,7 +50,7 @@ class SimpleBarcode extends Component {
       labelClassName, label, labelStyle, className, style, displayValue = true,
     } = this.props;
     return (
-      <div className={className} style={{display: "flex", "align-items": "center", "justify-content": "center"}}>
+      <div className={className} style={{display: "flex",alignItems: "center", justifyContent: "center"}}>
         <svg
           ref={(ref) => {
             this.barcode = ref;
