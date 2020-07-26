@@ -22,13 +22,16 @@
             'food-detail-brand  food-detail-pie'
             'food-detail-category food-detail-pie'
             'food-detail-serving food-detail-gtin'
-            'food-detail-ingredients  food-slider';
+            'food-detail-ingredients  food-inputs';
   grid-gap: 0rem;
   padding: 1rem;
 }
 
+。portionInput {
+  grid-area: food-inputs;
+}
+
 .sliderContainer {
-  grid-area: food-slider;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -38,7 +41,15 @@
 }
 
 .slider {
-  flex: 1
+  flex: 1;
+}
+
+.portionTags{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1rem;
+  align-items: center;
+  margin: 1.5rem 1rem;
 }
 
 .foodDetailServing {
@@ -96,8 +107,9 @@
                     'food-detail-serving'
                     'food-detail-pie'
                     'food-detail-gtin'
+                    'food-inputs'
                     'food-detail-ingredients'
-                    'food-slider';
+                    ;
     padding: 0rem;
   }
 
@@ -105,6 +117,10 @@
     margin: 5rem 1rem;
   }
 
+  .foodDetailGtin {
+    height: 0;
+    opacity: 0;
+  }
   /*.food-detail-ingredients {*/
   /*  height: 0px;*/
   /*  width: 0px;*/
@@ -124,6 +140,7 @@
   }
 
   .foodDetailTitle {
+    font-size: 2rem;
     padding: 0.3rem;
   }
 

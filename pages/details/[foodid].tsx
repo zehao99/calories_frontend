@@ -1,12 +1,16 @@
 import {FoodDetail} from "../../types/food";
 import ErrorPage from 'next/error'
-import {Table, Select, Slider, InputNumber} from "antd";
+import {Table, Select, Slider, InputNumber, Button} from "antd";
 import dynamic from "next/dynamic";
 import SimpleBarcode from "../../components/barcode";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import {GetServerSideProps} from "next";
 import {motion} from "framer-motion";
 import styles from "./foodDetail.module.scss";
+import PortionTag from "../../components/PortionTag";
+import {CartContext} from "../../context/cart-context";
+import {AuthContext} from "../../context/auth-context";
+import PopupAlert from "../../components/popup-alert";
 
 const BACKEND_HOST = process.env.BACKEND_HOST;
 
@@ -32,8 +36,8 @@ type Portion = {
   description: string
 }
 export default function FoodDetailPage(foodDetail: FoodDetail) {
-
-
+  const authContext = useContext(AuthContext);
+  const cartContext = useContext(CartContext);
   function formatter(value) {
     if (typeof value  === "string"){
       value = value.replace(/[^\d]/g,'')
@@ -143,8 +147,28 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
     showMoreText = isShowMore ? "Show Less": "Show More";
   }
 
+  const PortionClickHandler = (props) => {
+    setPortion(props.amount);
+  }
+
+  const [alertLogin, setAlertLogin] = useState(false);
+
+  const addMenuItemHandler = () =>{
+    //Current testing
+    if(!authContext.isAuth){
+      setAlertLogin(true);
+    }else{
+      cartContext.addItems(foodDetail);
+      alert("Added Item" + " "+foodDetail.name+ " " + portion + 'g');
+    }
+  }
+  const closeAlertHandler = () => {
+    setAlertLogin(false)
+  }
+
   return <motion.div initial={{opacity: 0, y: -200, width: "100%"}} animate={{opacity: 1, y: 0, width: "100%"}}
                      exit={{opacity: 0, y: 0, width: "100%"}}>
+    {alertLogin && <PopupAlert message = "Please Login!" title="Alert" onClickHandler={closeAlertHandler}></PopupAlert>}
     <div className={styles.foodDetailContainer}>
       <div className={styles.foodDetail}>
         <div className={styles.detailGrid}>
@@ -168,6 +192,7 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
           <div className={styles.foodDetailPie}>
             <PieChart protein={protein} carb={carb} fat={fat}/>
           </div>
+          <div className={styles.portionInput}>
           <div className={styles.sliderContainer}>
           <div className={styles.slider}>
             <Slider
@@ -202,7 +227,15 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
               }}
             />
           </div>
-        </div>
+          </div>
+          <div className={styles.portionTags}>
+            {allPortions.map((e)=>{
+              return <PortionTag amount = {e.amount} unit = {e.unit} description = {e.description} onClickHandler = {PortionClickHandler}/>
+            })}
+            <Button type = "primary" onClick={addMenuItemHandler}>Add to Menu</Button>
+          </div>
+          </div>
+
         </div>
         <Table columns={columns} dataSource={currentNutrition} pagination={false} rowKey="metric_name"
                className="food-detail-table"/>

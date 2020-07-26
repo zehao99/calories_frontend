@@ -3,6 +3,7 @@ import React, {useState} from "react";
 export const AuthContext = React.createContext(
   {
     isAuth: false,
+    userInfo: {},
     login: () => {},
   }
 )
@@ -15,7 +16,7 @@ const AuthContextProvider = (props) => {
   }
 
   return (
-    <AuthContext.Provider value={{login: loginHandler, isAuth: isAuthenticated}}>{props.children}</AuthContext.Provider>
+    <AuthContext.Provider value={{login: loginHandler, isAuth: isAuthenticated, userInfo: {}}}>{props.children}</AuthContext.Provider>
   )
 }
 export default AuthContextProvider;
