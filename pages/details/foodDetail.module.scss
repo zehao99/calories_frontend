@@ -1,0 +1,130 @@
+.foodDetailContainer {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  max-width: 1000px;
+}
+
+.foodDetail {
+  margin: 6rem 2rem;
+  padding: 0rem;
+  padding-bottom: 2.5rem;
+  border-radius: 20px;
+  background: rgba(240, 240, 240, 0.8);
+}
+
+.detailGrid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+            'food-detail-title  food-detail-pie'
+            'food-detail-brand  food-detail-pie'
+            'food-detail-category food-detail-pie'
+            'food-detail-serving food-detail-gtin'
+            'food-detail-ingredients  food-slider';
+  grid-gap: 0rem;
+  padding: 1rem;
+}
+
+.sliderContainer {
+  grid-area: food-slider;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1rem;
+  margin-left: 2rem;
+}
+
+.slider {
+  flex: 1
+}
+
+.foodDetailServing {
+  grid-area: food-detail-serving;
+}
+
+.foodDetailCategory {
+  grid-area: food-detail-category;
+}
+
+.foodDetailTitle {
+  text-transform: capitalize;
+  font-weight: 500;
+  grid-area: food-detail-title;
+  font-size: 3rem;
+}
+
+.foodDetailBrand {
+  grid-area: food-detail-brand;
+}
+
+.foodDetailGtin {
+  grid-area: food-detail-gtin;
+}
+
+.foodDetailPie {
+  grid-area: food-detail-pie;
+  height: auto;
+  width: 100%;
+  margin: auto;
+  border-radius: 20px;
+  object-fit: cover;
+  align-self: center;
+  justify-self: center;
+}
+
+.foodDetailIngredients {
+  grid-area: food-detail-ingredients;
+  line-height: 2rem;
+}
+
+@media (max-width: 500px) {
+  .foodDetail {
+    padding: 0rem;
+    padding-bottom: 2.5rem;
+    border-radius: 20px;
+  }
+
+  .detailGrid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+                    'food-detail-title'
+                    'food-detail-brand'
+                    'food-detail-category'
+                    'food-detail-serving'
+                    'food-detail-pie'
+                    'food-detail-gtin'
+                    'food-detail-ingredients'
+                    'food-slider';
+    padding: 0rem;
+  }
+
+  .foodDetail {
+    margin: 5rem 1rem;
+  }
+
+  /*.food-detail-ingredients {*/
+  /*  height: 0px;*/
+  /*  width: 0px;*/
+  /*  overflow: hidden;*/
+  /*  padding: 0;*/
+  /*  margin: 0;*/
+  /*  opacity: 0;*/
+  /*}*/
+
+  .foodDetail-img {
+    width: 100%;
+  }
+
+  .foodDetailTable {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
+
+  .foodDetailTitle {
+    padding: 0.3rem;
+  }
+
+}

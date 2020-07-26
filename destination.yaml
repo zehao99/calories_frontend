@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: frontend-destination
+spec:
+  host: frontend-service.default.svc.cluster.local
+  subsets:
+    - name: v5
+      labels:
+        version: v5
+    - name: v7
+      labels:
+        version: v7

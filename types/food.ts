@@ -14,6 +14,10 @@ export type Food = {
   nutrition: Array<Nutrition>
 
 }
+type Portion = {
+  gram: number,
+  description: string
+}
 export type FoodDetail = {
   fdc_id: string
   name: string
@@ -23,8 +27,10 @@ export type FoodDetail = {
   ingredients: string,
   serving_size: number,
   serving_size_unit: string,
-  serving_description:string,
+  serving_description: string,
   nutrition: Array<Nutrition>
+  portions: Array<Portion>
+
 }
 export type SearchResponse = Array<Food>
 export type DetailResponse = FoodDetail

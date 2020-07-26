@@ -1,20 +1,56 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend-deployment
+  name: frontend-deployment-v7
 spec:
   selector:
     matchLabels:
       app: frontend
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
         app: frontend
+        version: v7
     spec:
       containers:
         - name: frontend
-          image: gcr.io/carlories/frontend:v4
+          image: gcr.io/carlories/frontend:v7
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "300m"
+            limits:
+              memory: "2Gi"
+              cpu: "400m"
+          env:
+            - name: BACKEND_HOST
+              value: "backend-service"
+            - name: BACKEND_PORT
+              value: "80"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment-v5
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: frontend
+        version: v5
+    spec:
+      containers:
+        - name: frontend
+          image: gcr.io/carlories/frontend:v5
+          ports:
+            - containerPort: 3000
           resources:
             requests:
               memory: "1Gi"

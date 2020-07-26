@@ -5,11 +5,12 @@ import {config, library} from '@fortawesome/fontawesome-svg-core';
 import {fas} from '@fortawesome/free-solid-svg-icons';
 import {AnimatePresence} from "framer-motion";
 import Navbar from "../components/navbar";
+import AuthContextProvider from "../context/auth-context";
 
 config.autoAddCss = false;
 library.add(fas);
 export default function MyApp({Component, pageProps}) {
-  return <AnimatePresence exitBeforeEnter>
+  return <AuthContextProvider><AnimatePresence exitBeforeEnter>
     <Head  key={"head"}>
       <title>Calories Search</title>
     </Head>
@@ -19,9 +20,9 @@ export default function MyApp({Component, pageProps}) {
           <Navbar/>
         </div>
       </div>
-
       <Component {...pageProps}  key={"component"} />
     </div>
   </AnimatePresence>
+  </AuthContextProvider>
 
 }

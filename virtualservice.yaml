@@ -1,0 +1,27 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: frontend-route
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - calories-gateway
+  http:
+    - name: "frontend-v5-route"
+      match:
+        - uri:
+            prefix: /details
+      route:
+        - destination:
+            host: frontend-service
+            subset: v5
+            port:
+              number: 3000
+    - name: "frontend-v7-route"
+      route:
+        - destination:
+            host: frontend-service
+            subset: v7
+            port:
+              number: 3000

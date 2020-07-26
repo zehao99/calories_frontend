@@ -1,5 +1,6 @@
 import {Input} from 'antd';
 import Router from "next/router";
+import React from 'react';
 
 const {Search} = Input;
 type SearchBarProps = {
@@ -11,7 +12,7 @@ const search = (keyword) => {
     query: {q: keyword},
   })
 }
-export default function SearchBar({value}: SearchBarProps) {
+function SearchBar({value}: SearchBarProps) {
   return <Search
     defaultValue={value}
     enterButton="Search"
@@ -27,3 +28,5 @@ export default function SearchBar({value}: SearchBarProps) {
     }}
   />
 }
+
+export default React.memo(SearchBar);

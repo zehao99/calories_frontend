@@ -18,7 +18,7 @@ type Food = {
 
 }
 export default function FoodCard(food: Food) {
-  return <Link as={`/details/${food.fdc_id}`} href="/details/[foodid]">
+  return <Link as={`./details/${food.fdc_id}`} href="/details/[foodid]">
     <Card hoverable style={{ width: "100%", height: "100%", borderRadius: "20px"}}>
     <h3>{food.name}</h3>
     <p>{food.category}</p>

@@ -1,9 +1,15 @@
 import Link from 'next/link';
+import {useContext} from 'react';
 import {Menu} from 'antd';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {AuthContext} from "../context/auth-context";
 
-
-const Navbar = () => (
+const Navbar = () => {
+  const authContext = useContext(AuthContext);
+  const loginHandler = () => {
+    authContext.login();
+  }
+  return (
   <div className="navbar-container">
 
     <Link href={"/"}>
@@ -13,7 +19,7 @@ const Navbar = () => (
       <Menu.Item key="1">
         <div style={{display: "flex", alignItems: "center"}}>
           <FontAwesomeIcon icon="sign-in-alt" width="14"/>
-          <span style={{marginLeft: "0.5rem"}}>Login</span>
+          <span style={{marginLeft: "0.5rem"}} onClick={loginHandler}>{authContext.isAuth?"Log Out":"Login"}</span>
         </div>
       </Menu.Item>
     </Menu>
@@ -36,7 +42,7 @@ const Navbar = () => (
   </div>
 
 
-);
+)};
 
 export default Navbar;
 

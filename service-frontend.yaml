@@ -4,11 +4,10 @@ metadata:
   name: frontend-service
 
 spec:
-  type: NodePort
   selector:
     app: frontend
   ports:
     - port: 3000
       targetPort: 3000
-      nodePort: 30008
       protocol: TCP
+      name: http

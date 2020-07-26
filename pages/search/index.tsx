@@ -6,6 +6,7 @@ import {GetServerSideProps} from "next";
 import {SearchResponse} from "../../types/food";
 import {motion} from "framer-motion";
 import {Pagination} from "antd";
+import styles from "./searchResult.module.scss";
 
 const BACKEND_HOST = process.env.BACKEND_HOST;
 
@@ -23,7 +24,7 @@ const Post = (props) => {
 
   function changePages(page) {
     Router.push({
-      pathname: '/search',
+      pathname: './search',
       query: {
         q: q,
         page: page
@@ -32,23 +33,23 @@ const Post = (props) => {
   }
 
   return (
-    <div className="content-container">
+    <div className={styles.contentContainer}>
       <motion.div initial={{opacity: 1, y: -200, width: "100%"}} animate={{opacity: 1, y: 0, width: "100%"}}
                   exit={{opacity: 0, y: 0, width: "100%"}}>
-        <div className="searcharea">
+        <div className={styles.searcharea}>
 
           {/*<h1 id= "1" >Burn Your Fat Off!</h1>*/}
           <SearchBar value={q}/>
         </div>
       </motion.div>
-      <div className="results">
+      <div className={styles.results}>
         {
           results.map(result => {
             return <FoodCard {...result} key={result.fdc_id}/>
           })
         }
       </div>
-      <Pagination defaultCurrent={1} current={currentPage} total={totalPages} onChange={changePages}/>
+      <Pagination defaultCurrent={1} current={currentPage} total={totalPages} onChange={changePages} showSizeChanger={false}/>
       { /*language=CSS*/}
       <style jsx>{`
         .content-container {
