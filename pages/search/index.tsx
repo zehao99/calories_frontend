@@ -49,7 +49,8 @@ const Post = (props) => {
           })
         }
       </div>
-      <Pagination defaultCurrent={1} current={currentPage} total={totalPages} onChange={changePages} showSizeChanger={false}/>
+      <Pagination defaultCurrent={1} current={currentPage} total={totalPages} onChange={changePages}
+                  showSizeChanger={false}/>
     </div>
   )
 }
@@ -62,19 +63,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const results: SearchResponse = await
     fetch(`http://${BACKEND_HOST}:${BACKEND_PORT}/api/search?keywords=${query.q}&offset=${offset}&limit=${COUNT_PER_PAGE}`)
       .then((response) => {
-        if (response.ok) {
+        if (response.ok)
           return response.json();
-        } else {
-          return [{
-            fdc_id: 0,
+        else return {
+          total:1,
+          food: [{
+            fdc_id: "0",
             name: "Nothing Found",
             category: "",
             brand: "",
             gtin_upc: "",
             nutrition: []
-          }];
+          }]
         }
-      });
+      })
   return {
     props: {currentPage: page, ...results}
   }

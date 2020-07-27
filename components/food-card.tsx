@@ -7,7 +7,7 @@ import {motion} from "framer-motion";
 const food_card = (prop) => {
   return (
     <motion.div initial={{opacity: 0, y: -100, height: "100%"}} animate={{opacity: 1, y: 0, height: "100%"}}
-                exit={{opacity: 0, y: 0, height: "100%"}} >
+                exit={{opacity: 0, y: 0, height: "100%"}}>
       <Card hoverable style={{minWidth: "300px", height: "100%", borderRadius: "20px"}}>
         <div className="card-content">
           <h3>{prop.name.toLowerCase()}</h3>
@@ -19,11 +19,11 @@ const food_card = (prop) => {
           .card-animate {
             height: 100%;
           }
-            
-          h3{
+
+          h3 {
             text-transform: capitalize;
           }
-          
+
           .card-content {
             margin: auto;
             max-width: 360px;
@@ -34,7 +34,11 @@ const food_card = (prop) => {
 }
 
 export default function FoodCard(food: Food) {
-  return <Link as={`/details/${food.fdc_id}`} href="/details/[foodid]">
-    <a className="foodcard-link" style={{height: "100%"}}>{food_card(food)}</a>
-  </Link>
+  if(food.fdc_id === "0"){
+    return <a className="foodcard-link" style={{height: "100%"}}>{food_card(food)}</a>
+  }else{
+    return <Link as={ `/details/${food.fdc_id}`} href={ "/details/[foodid]"}>
+      <a className="foodcard-link" style={{height: "100%"}}>{food_card(food)}</a>
+    </Link>
+  }
 }

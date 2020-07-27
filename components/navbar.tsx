@@ -7,6 +7,7 @@ import {AuthContext} from "../context/auth-context";
 const Navbar = () => {
   const authContext = useContext(AuthContext);
   const loginHandler = () => {
+
     authContext.login();
   }
   return (

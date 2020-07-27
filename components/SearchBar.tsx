@@ -7,6 +7,8 @@ type SearchBarProps = {
   value: string
 }
 const search = (keyword) => {
+  if (keyword==="")
+    return
   Router.push({
     pathname: '/search',
     query: {q: keyword},

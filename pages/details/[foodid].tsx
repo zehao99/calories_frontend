@@ -36,8 +36,13 @@ type Portion = {
   description: string
 }
 export default function FoodDetailPage(foodDetail: FoodDetail) {
+
   const authContext = useContext(AuthContext);
   const cartContext = useContext(CartContext);
+  if (Object.keys(foodDetail).length === 0 && foodDetail.constructor === Object)
+    return  <ErrorPage statusCode={404}/>
+
+
   function formatter(value) {
     if (typeof value  === "string"){
       value = value.replace(/[^\d]/g,'')
@@ -80,9 +85,6 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
     }
   }
 
-  if (foodDetail === null) {
-    return <ErrorPage statusCode={404}/>
-  }
   const [portion, setPortion] = useState(100);
   const [sliderNum, setSliderNum] = useState(100);
 
@@ -151,24 +153,22 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
     setPortion(props.amount);
   }
 
-  const [alertLogin, setAlertLogin] = useState(false);
 
   const addMenuItemHandler = () =>{
     //Current testing
     if(!authContext.isAuth){
-      setAlertLogin(true);
+      PopupAlert.show({
+        message: "Please Log In",
+        title: "Alert"
+      });
     }else{
       cartContext.addItems(foodDetail);
       alert("Added Item" + " "+foodDetail.name+ " " + portion + 'g');
     }
   }
-  const closeAlertHandler = () => {
-    setAlertLogin(false)
-  }
 
   return <motion.div initial={{opacity: 0, y: -200, width: "100%"}} animate={{opacity: 1, y: 0, width: "100%"}}
                      exit={{opacity: 0, y: 0, width: "100%"}}>
-    {alertLogin && <PopupAlert message = "Please Login!" title="Alert" onClickHandler={closeAlertHandler}></PopupAlert>}
     <div className={styles.foodDetailContainer}>
       <div className={styles.foodDetail}>
         <div className={styles.detailGrid}>
@@ -230,7 +230,7 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
           </div>
           <div className={styles.portionTags}>
             {allPortions.map((e)=>{
-              return <PortionTag amount = {e.amount} unit = {e.unit} description = {e.description} onClickHandler = {PortionClickHandler}/>
+              return <PortionTag key={e.description} amount = {e.amount} unit = {e.unit} description = {e.description} onClickHandler = {PortionClickHandler}/>
             })}
             <Button type = "primary" onClick={addMenuItemHandler}>Add to Menu</Button>
           </div>
@@ -247,7 +247,8 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {params} = context;
   const response = await fetch(`http://${BACKEND_HOST}:${BACKEND_PORT}/api/food?fdc_id=` + params.foodid);
-  const foodDetail: FoodDetail = response.ok ? (await response.json()) : null;
+  const foodDetail: FoodDetail = response.ok ? (await response.json()) : {};
+  console.log("foodDetail"+foodDetail)
   return {
     props: foodDetail
   }
