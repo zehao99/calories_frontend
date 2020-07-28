@@ -10,6 +10,7 @@ import styles from "./foodDetail.module.scss";
 import PortionTag from "../../components/PortionTag";
 import {CartContext} from "../../context/cart-context";
 import {AuthContext} from "../../context/auth-context";
+import {LogInContext} from "../../context/loginform-context";
 import PopupAlert from "../../components/popup-alert";
 
 const BACKEND_HOST = process.env.BACKEND_HOST;
@@ -39,6 +40,7 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
 
   const authContext = useContext(AuthContext);
   const cartContext = useContext(CartContext);
+  const logInContext = useContext(LogInContext);
   if (Object.keys(foodDetail).length === 0 && foodDetail.constructor === Object)
     return  <ErrorPage statusCode={404}/>
 
@@ -157,13 +159,13 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
   const addMenuItemHandler = () =>{
     //Current testing
     if(!authContext.isAuth){
-      PopupAlert.show({
-        message: "Please Log In",
-        title: "Alert"
-      });
+      logInContext.show();
     }else{
       cartContext.addItems(foodDetail);
-      alert("Added Item" + " "+foodDetail.name+ " " + portion + 'g');
+      PopupAlert.show({
+        title: "Added Item",
+        message: foodDetail.name+ " " + portion + 'g'
+      });
     }
   }
 
@@ -230,7 +232,7 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
           </div>
           <div className={styles.portionTags}>
             {allPortions.map((e)=>{
-              return <PortionTag key={e.description} amount = {e.amount} unit = {e.unit} description = {e.description} onClickHandler = {PortionClickHandler}/>
+              return <PortionTag amount = {e.amount} unit = {e.unit} description = {e.description} onClickHandler = {PortionClickHandler}/>
             })}
             <Button type = "primary" onClick={addMenuItemHandler}>Add to Menu</Button>
           </div>

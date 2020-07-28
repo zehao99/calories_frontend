@@ -1,0 +1,33 @@
+.formContainerBg{
+  top: 0;
+  position: fixed;
+  left: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 50;
+  height: 100vh;
+  width: 100%;
+}
+
+.loginForm{
+  z-index: 100;
+  background: white;
+  width: 20rem;
+  max-width: 90%;
+  left: calc(50% - 10rem);
+  top: 20vh;
+  margin: auto;
+  position: fixed;
+  padding: 1rem;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loginFormElements{
+  margin: 1rem 0;
+  width: 90%;
+}
+.loginFormSubmitBtn{
+  margin-top: 1rem;
+}

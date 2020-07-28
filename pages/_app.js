@@ -7,11 +7,12 @@ import {AnimatePresence} from "framer-motion";
 import Navbar from "../components/navbar";
 import AuthContextProvider from "../context/auth-context";
 import CartContextProvider from "../context/cart-context";
+import LogInContextProvider from "../context/loginform-context";
 
 config.autoAddCss = false;
 library.add(fas);
 export default function MyApp({Component, pageProps}) {
-  return <CartContextProvider><AuthContextProvider><AnimatePresence exitBeforeEnter>
+  return <CartContextProvider><AuthContextProvider><LogInContextProvider><AnimatePresence exitBeforeEnter>
     <Head  key={"head"}>
       <title>Calories Search</title>
     </Head>
@@ -24,6 +25,7 @@ export default function MyApp({Component, pageProps}) {
       <Component {...pageProps}  key={"component"} />
     </div>
   </AnimatePresence>
+  </LogInContextProvider>
   </AuthContextProvider>
   </CartContextProvider>
 
