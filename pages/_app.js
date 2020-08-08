@@ -8,6 +8,7 @@ import Navbar from "../components/navbar";
 import AuthContextProvider from "../context/auth-context";
 import CartContextProvider from "../context/cart-context";
 import LogInContextProvider from "../context/loginform-context";
+import Menu from "../components/Menu";
 
 config.autoAddCss = false;
 library.add(fas);
@@ -20,6 +21,9 @@ export default function MyApp({Component, pageProps}) {
       <div className="navbar-bg">
         <div className="navbar">
           <Navbar/>
+        </div>
+        <div className="today-menu">
+          <Menu />
         </div>
       </div>
       <Component {...pageProps}  key={"component"} />

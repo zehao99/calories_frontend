@@ -50,6 +50,10 @@
   grid-gap: 1rem;
   align-items: center;
   margin: 1.5rem 1rem;
+  @media (max-width: 600px) {
+    grid-gap: 0.5rem;
+    margin: 1rem 0.5rem;
+  }
 }
 
 .foodDetailServing {

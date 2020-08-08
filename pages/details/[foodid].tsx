@@ -50,7 +50,6 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
       value = value.replace(/[^\d]/g,'')
       return `${value} g`;
     }
-
   }
 
   let ingredientsInfo = foodDetail.ingredients;
@@ -161,7 +160,26 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
     if(!authContext.isAuth){
       logInContext.show();
     }else{
-      cartContext.addItems(foodDetail);
+      console.log(foodDetail);
+      let energyPerHundredGram = 0;
+      let energyUnit = "KCAL";
+      if(foodDetail.nutrition != null){
+        foodDetail.nutrition.map(item => {
+          if(item.metric_name =="Energy"){
+            energyPerHundredGram = item.amount;
+            energyUnit = item.unit_name;
+          }
+        })
+      }
+      let item = {
+        fdcid: foodDetail.fdc_id,
+        name: foodDetail.name,
+        portion: portion,
+        energyPerHundredGram: energyPerHundredGram,
+        energyUnit: energyUnit
+      }
+      cartContext.addItems(item);
+      console.log(item);
       PopupAlert.show({
         title: "Added Item",
         message: foodDetail.name+ " " + portion + 'g'
@@ -234,7 +252,7 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
             {allPortions.map((e)=>{
               return <PortionTag amount = {e.amount} unit = {e.unit} description = {e.description} onClickHandler = {PortionClickHandler}/>
             })}
-            <Button type = "primary" onClick={addMenuItemHandler}>Add to Menu</Button>
+            <Button type = "primary" onClick={addMenuItemHandler}>Add to Meal</Button>
           </div>
           </div>
 

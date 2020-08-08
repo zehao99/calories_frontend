@@ -1,76 +1,56 @@
-import React, {useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Button} from "antd";
 import styles from "./FullMenu.module.scss";
 import TodayMenuItem from "./TodayMenuItem";
+import {CartContext} from "../../context/cart-context"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {motion} from "framer-motion";
 
 const FullMenu = (props) => {
-  const [items, setItems] = useState([
-    {
-      id: "1",
-      name: "salmon",
-      num: 1
-    },
-    {
-      id: "2",
-      name: "shit",
-      num: 1
-    }
-  ])
+  const cartContext = useContext(CartContext);
+  const [items, setItems] = useState(cartContext.items === null ? []: cartContext.items);
+  useEffect(()=>{
+    if(cartContext.items !== null) setItems([...cartContext.items]);
+    else setItems([]);
+  },[cartContext.items]);
 
-  const addItemHandler = (id) => {
-    console.log("shit", id);
-    setItems(prevState => {
-      prevState.map(item => {
-        if (item.id === id) {
-          item.num = item.num + 1;
-          console.log(item.num);
-        }
-      });
-      let newState = [...prevState];
-      newState = newState.filter(item => item.num > 0);
-      return newState;
+  const addItemHandler = (fdcid) => {
+    console.log("shit", fdcid);
+    cartContext.items.map(item => {
+      if (item.fdcid === fdcid) {
+        let itemToAdd = JSON.parse(JSON.stringify(item));
+        itemToAdd.portion = 100;
+        console.log(item.portion);
+        cartContext.addItems(itemToAdd);
+      }
     });
   };
 
-  const changeItemHandler = (event, id) => {
-    setItems(prevState => {
-      prevState.map(item => {
-        if (item.id === id) {
-          if (event.target.value === "") item.num = 0;
-          else item.num = parseInt(event.target.value);
-          console.log(typeof (item.num));
-        }
-      });
-      let newState = [...prevState];
-      return newState;
-    });
+  const changeItemHandler = (event, fdcid) => {
+    cartContext.changeItem(event.target.value, fdcid);
   }
 
-  const deleteItemHandler = (id) => {
-    setItems(prevState => {
-      prevState.map(item => {
-        if (item.id === id) {
-          item.num -= 1;
-          console.log(item.num);
-        }
-      });
-      let newState = [...prevState];
-      newState = newState.filter(item => item.num > 0);
-      return newState;
-    });
+  const deleteItemHandler = (fdcid) => {
+    cartContext.decreaseItems(fdcid, 100);
   };
 
-  return <div className={styles.todayMenuContainer}>
+  return <motion.div initial={{opacity: 0, y: -100, height: "100%"}} animate={{opacity: 1, y: 0, height: "100%"}}
+                     exit={{opacity: 0, y: 0, height: "100%"}}>
+  <div className={styles.todayMenuContainer}>
+    <div className={styles.todayMenuClose}>
+      <h3>Today's Menu</h3>
+      <FontAwesomeIcon icon="times" width="14px" onClick={props.clickClose} style={{cursor: "pointer"}}/>
+    </div>
     <div className={styles.todayMenuItem}>
       {items.map(item => {
-        console.log(item.id, item.num);
-        return <TodayMenuItem id={item.id} name={item.name} num={item.num} addItemHandler={addItemHandler}
+        return <TodayMenuItem key={item.fdcid} fdcid={item.fdcid} name={item.name} num={item.portion} addItemHandler={addItemHandler}
                               deleteItemHandler={deleteItemHandler}
-                              changed={event => changeItemHandler(event, item.id)}/>
+                              changed={event => changeItemHandler(event, item.fdcid)}/>
       })}
     </div>
-    <Button type="primary" className={styles.todayMenuSubmit}>Add</Button>
+    <Button type="primary" className={styles.todayMenuSubmit}>Submit Meal</Button>
   </div>
+  </motion.div>
 }
 
 export default FullMenu;

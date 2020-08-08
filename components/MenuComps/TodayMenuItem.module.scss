@@ -5,6 +5,11 @@
   align-items: center;
   padding: 1rem;
 }
+.todayMenuItemName{
+  overflow: hidden;
+  cursor: pointer;
+}
 .todayMenuItemInput{
   display: flex;
+  margin-left: 0.5rem;
 }

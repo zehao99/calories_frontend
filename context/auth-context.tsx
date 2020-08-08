@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import PopModal from "../components/popup-alert";
 import PopupAlert from "../components/popup-alert";
 import Cookie from "js-cookie";
 import {parseCookies} from "../utils/parseCookies"
+import {CartContext} from "./cart-context";
 
 export const AuthContext = React.createContext(
   {
@@ -17,12 +18,15 @@ export const AuthContext = React.createContext(
 
 const AuthContextProvider = (props) => {
 
+  const cartContext = useContext(CartContext);
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   // useEffect(()=> {Cookie.set("userInfo", userInfo)},[userInfo])
   useEffect( ()=> {
       const userToken = localStorage.getItem("userToken");
+      const userCart = localStorage.getItem("userCart");
+      cartContext.setItems(JSON.parse(userCart));
       if(userToken){
         fetch(`/api/token`,{method:"POST", body: userToken})
           .then( (response) => {
@@ -48,6 +52,9 @@ const AuthContextProvider = (props) => {
   const logoutHandler = () => {
     setIsAuthenticated(false);
     localStorage.clear();
+    sessionStorage.clear();
+    location.reload();
+
   }
 
   return (
