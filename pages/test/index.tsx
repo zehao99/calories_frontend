@@ -1,6 +1,6 @@
 import React from "react";
-import LoginForm from '../../components/login-form';
+import Menu from '../../components/Menu';
 
 export default function Test() {
-  return  <div></div>
+  return  <Menu />
 }

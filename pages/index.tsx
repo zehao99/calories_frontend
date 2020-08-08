@@ -10,7 +10,7 @@ const {Search} = Input;
 export default function Home({data}) {
   useEffect(() => {
     //
-    console.log("V13:Completed Portion Tag")
+    console.log("V15:Completed Portion Tag")
     var WINDOW_SIZE = window.innerHeight;
     var div = document.getElementsByClassName('container')[0];
     console.log(div)

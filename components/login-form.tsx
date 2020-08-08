@@ -27,6 +27,7 @@ const LoginForm = (props) => {
         name: "Password",
         type: 'password',
         placeholder: 'Please enter your password',
+        autocomplete: 'current-password',
       },
       value: "",
     }
@@ -54,6 +55,7 @@ const LoginForm = (props) => {
         name: "Password",
         type: 'password',
         placeholder: 'Please enter your password',
+        autocomplete: 'new-password',
       },
       value: "",
     },
@@ -63,6 +65,7 @@ const LoginForm = (props) => {
         name: "Password Confirm",
         type: 'password',
         placeholder: 'Please confirm your password',
+        autocomplete: 'new-password',
       },
       value: "",
     },
@@ -124,7 +127,7 @@ const LoginForm = (props) => {
       }
     };
     const body = formData.toString();
-    let url =  currURL + "/api/signup";
+    let url =  "/api/signup";
     const response = await fetch(url, {
       method: "POST",
       headers: {

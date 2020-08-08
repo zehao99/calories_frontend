@@ -1,0 +1,22 @@
+.todayMenuContainer {
+  position: relative;
+  width: 400px;
+  height: 700px;
+  background: white;
+  top: 400px;
+  left: 700px;
+  border-radius: 20px;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.todayMenuItem {
+  width: 100%;
+}
+
+.todayMenuSubmit {
+  width: 60%;
+  align-self: center;
+}
