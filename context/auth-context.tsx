@@ -25,9 +25,10 @@ const AuthContextProvider = (props) => {
   // useEffect(()=> {Cookie.set("userInfo", userInfo)},[userInfo])
   useEffect( ()=> {
       const userToken = localStorage.getItem("userToken");
-      const userCart = localStorage.getItem("userCart");
-      cartContext.setItems(JSON.parse(userCart));
       if(userToken){
+        cartContext.setUserToken(userToken);
+        const userCart = localStorage.getItem("userCart" + userToken);
+        cartContext.setItems(JSON.parse(userCart));
         fetch(`/api/token`,{method:"POST", body: userToken})
           .then( (response) => {
             if(response.ok){
@@ -40,6 +41,8 @@ const AuthContextProvider = (props) => {
           }).catch((error) => {
           setIsAuthenticated(false);
         });
+      }else{
+        localStorage.clear();
       }
     }
   ,[])

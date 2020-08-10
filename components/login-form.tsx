@@ -4,10 +4,12 @@ import styles from './login-form.module.scss';
 import {AuthContext} from '../context/auth-context';
 import PopupAlert from "./popup-alert";
 import Cookie from "js-cookie";
+import {CartContext} from "../context/cart-context";
 
 const currURL = "http://localhost:3000";
 
 const LoginForm = (props) => {
+  const cartContext = useContext(CartContext);
   const authContext = useContext(AuthContext);
   console.log(authContext);
   const [isAuthed, setisAuthed] = useState(false);
@@ -104,6 +106,7 @@ const LoginForm = (props) => {
       const userToken = await response.json();
       console.log(userToken);
       localStorage.setItem("userToken", userToken["access_token"]);
+      cartContext.setUserToken(userToken["access_token"]);
       props.onClose();
       setIsLoading(false);
       // location.reload();
@@ -140,7 +143,7 @@ const LoginForm = (props) => {
       setIsLoading(false);
       PopupAlert.show({
         title: "Thank you for joining us",
-        message: "Please log in."
+        message: "Please log in. Today's menu is on the right-bottom side of the page."
       })
     } else {
       PopupAlert.show({

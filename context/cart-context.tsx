@@ -9,7 +9,9 @@ export const CartContext = React.createContext({
 //   energyUnit: xxxxx;
 // }
   items: [],
-  itemNum: 0,
+  userToken: "",
+  showMenu: false,
+  toggleMenu: ()=>{},
   addItems: (item) => {
   },
   removeItems: (itemFcdId) => {
@@ -18,41 +20,42 @@ export const CartContext = React.createContext({
   },
   setItems: (items) => {
   },
-  changeItem: (portion ,itemFdcId) => {}
+  changeItem: (portion ,itemFdcId) => {},
+  setUserToken: (userToken) => {}
 });
 
 const CartContextProvider = (props) => {
   const [item, setItem] = useState([]);
-  const [itemNum, setItemNum] = useState(0);
+  const [userToken, setUserToken] = useState("");
+  const [showMenu, setShowMenu] = useState(false);
+  const toggleMenuHandler = ()=>{
+    setShowMenu(!showMenu);
+  }
 
   const addItemsHandler = (itemInput) => {
     setItem((prevItem) => {
       let isNew = true;
-      console.log(itemInput);
       if (prevItem !== null) {
         prevItem.map(item => {
           if (item.fdcid === itemInput.fdcid) {
-            console.log(item.portion);
             item.portion += itemInput.portion;
-            console.log(item.portion);
             isNew = false;
           }
         })
       } else {
-        localStorage.setItem("userCart", JSON.stringify([itemInput]))
+        localStorage.setItem("userCart" + userToken, JSON.stringify([itemInput]))
         return [itemInput];
       }
       if (isNew) prevItem.push(itemInput);
-      console.log(isNew, prevItem);
-      localStorage.setItem("userCart", JSON.stringify([...prevItem]))
+      localStorage.setItem("userCart" + userToken, JSON.stringify([...prevItem]))
       return [...prevItem];
     });
   }
 
   const removeItemsHandler = (itemFdcId) => {
     setItem((prevItem) => {
-      prevItem.filter((e) => e.itemFdcId !== itemFdcId);
-      localStorage.setItem("userCart", JSON.stringify([...prevItem]));
+      prevItem = prevItem.filter((e) => e.fdcid !== itemFdcId);
+      localStorage.setItem("userCart" + userToken, JSON.stringify([...prevItem]));
       return [...prevItem]
     });
   }
@@ -67,25 +70,23 @@ const CartContextProvider = (props) => {
             isPresent = true;
           }
         })
-        prevItem = prevItem.filter(item => item.portion > 0);
+        // prevItem = prevItem.filter(item => item.portion > 0);
       }
       if (!isPresent) console.log("Item don't exist.");
-      localStorage.setItem("userCart", JSON.stringify([...prevItem]));
+      localStorage.setItem("userCart" + userToken, JSON.stringify([...prevItem]));
       return [...prevItem];
     });
   }
 
   const changeItemHandler = (portion ,itemFdcId) => {
     setItem(prevItem => {
-      console.log(portion, itemFdcId);
       if (prevItem !== null) {
         prevItem.map(item => {
           if (item.fdcid === itemFdcId) {
-            console.log(item);
             item.portion = parseInt(portion);
           }
         })
-        localStorage.setItem("userCart", JSON.stringify([...prevItem]))
+        localStorage.setItem("userCart" + userToken, JSON.stringify([...prevItem]))
         return [...prevItem];
       }
     })
@@ -93,16 +94,23 @@ const CartContextProvider = (props) => {
 
   const setItemHandler = (items) => {
     setItem(items);
+    localStorage.setItem("userCart" + userToken, JSON.stringify(item));
+  }
+  const setUserTokenHandler = (userTokenNew)=> {
+    setUserToken(userTokenNew);
   }
 
   return <CartContext.Provider value={{
     items: item,
-    itemNum: itemNum,
+    userToken: userToken,
+    showMenu: showMenu,
+    toggleMenu: toggleMenuHandler,
     addItems: addItemsHandler,
     removeItems: removeItemsHandler,
     decreaseItems: decreaseItemsHandler,
     setItems: setItemHandler,
     changeItem: changeItemHandler,
+    setUserToken: setUserTokenHandler
   }}>{props.children}</CartContext.Provider>
 }
 export default CartContextProvider;

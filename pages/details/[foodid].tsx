@@ -87,7 +87,6 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
   }
 
   const [portion, setPortion] = useState(100);
-  const [sliderNum, setSliderNum] = useState(100);
 
   const currentNutrition = foodDetail.nutrition
     .map(({amount, unit_name, metric_name}) => {
@@ -97,9 +96,12 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
         metric_name
       }
     })
-  const protein = foodDetail.nutrition.find(x => x.metric_name === "Protein").amount
-  const carb = foodDetail.nutrition.find(x => x.metric_name === 'Carbohydrate, by difference').amount
-  const fat = foodDetail.nutrition.find(x => x.metric_name === 'Total lipid (fat)').amount
+  const protein_object = foodDetail.nutrition.find(x => x.metric_name === "Protein");
+  const protein = protein_object === undefined ? 0 : protein_object.amount;
+  const carb_object = foodDetail.nutrition.find(x => x.metric_name === 'Carbohydrate, by difference');
+  const carb = carb_object === undefined ? 0 : carb_object.amount;
+  const fat_object = foodDetail.nutrition.find(x => x.metric_name === 'Total lipid (fat)');
+  const fat = fat_object === undefined ? 0 : fat_object.amount;
   const allPortions: Array<Portion> = [
     {
       amount: 100,
@@ -221,10 +223,10 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
               defaultValue={100}
               range={false}
               // @ts-ignore
-              onChange={(v) => setSliderNum(v)}
+              onChange={(v) => setPortion(v)}
               // @ts-ignore
               onAfterChange={(v) => setPortion(v)}
-              value={typeof sliderNum === 'number' ? sliderNum : 0}
+              value={typeof portion === 'number' ? portion : 0}
               step={1}
             />
           </div>
@@ -242,15 +244,13 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
 
                 // @ts-ignore
                 setPortion(v);
-                // @ts-ignore
-                setSliderNum(v);
               }}
             />
           </div>
           </div>
           <div className={styles.portionTags}>
             {allPortions.map((e)=>{
-              return <PortionTag amount = {e.amount} unit = {e.unit} description = {e.description} onClickHandler = {PortionClickHandler}/>
+              return <PortionTag key={e.description} amount = {e.amount} unit = {e.unit} description = {e.description} onClickHandler = {PortionClickHandler}/>
             })}
             <Button type = "primary" onClick={addMenuItemHandler}>Add to Meal</Button>
           </div>

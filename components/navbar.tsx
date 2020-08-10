@@ -5,11 +5,14 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {AuthContext} from "../context/auth-context";
 import {LogInContext} from "../context/loginform-context";
 import LoginForm from "./login-form";
+import {CartContext} from "../context/cart-context";
+
+const {SubMenu} = Menu;
 
 const Navbar = () => {
   const authContext = useContext(AuthContext);
   const logInContext = useContext(LogInContext);
-
+  const cartContext = useContext(CartContext);
   let [content, setContent] = useState(null);
   useEffect(()=>{
     if (logInContext.isShown) {
@@ -28,6 +31,19 @@ const Navbar = () => {
     }
   }
 
+  const login = <Menu.Item key="1">
+    <div style={{display: "flex", alignItems: "center"}}>
+      <FontAwesomeIcon icon="sign-in-alt" width="14"/>
+      <span style={{marginLeft: "0.5rem"}}
+            onClick={loginHandler}>Login</span>
+    </div>
+  </Menu.Item>
+
+  const user = <SubMenu icon={<FontAwesomeIcon icon="user" width="14" height="14" style={{marginRight:"0.5rem"}}/>} title="User">
+    <Menu.Item key="user:1"><Link as={ `/user/122122122`} href={ "/user/[userid]"}>My Page</Link></Menu.Item>
+      <Menu.Item key="user:2" onClick={loginHandler}>LogOut</Menu.Item>
+  </SubMenu>
+
   return (
     <div>
       {content}
@@ -36,13 +52,14 @@ const Navbar = () => {
           <a><img src="/logo.png" alt="logo" className="logo" style={{height: "30px"}}/></a>
         </Link>
         <Menu mode="horizontal">
-          <Menu.Item key="1">
-            <div style={{display: "flex", alignItems: "center"}}>
-              <FontAwesomeIcon icon="sign-in-alt" width="14"/>
-              <span style={{marginLeft: "0.5rem"}}
-                    onClick={loginHandler}>{authContext.isAuth ? "Log Out" : "Login"}</span>
-            </div>
+          <Menu.Item key="2" id="navbar-today-menu" >
+            <FontAwesomeIcon icon="utensils" width="14" height="14"/>
+            <span onClick={cartContext.toggleMenu} style={{marginLeft: "0.5rem"}}
+                  >Meal</span>
           </Menu.Item>
+          {
+            authContext.isAuth ? user : login
+          }
         </Menu>
         { /*language=CSS*/}
         <style jsx>{`
@@ -52,11 +69,12 @@ const Navbar = () => {
             justify-content: space-between;
           }
 
-          @media (max-width: 500px) {
+          @media (max-width: 600px) {
             .logo {
               height: 5px;
               width: auto;
             }
+            
           }
         `}
         </style>

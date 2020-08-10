@@ -31,7 +31,7 @@
   }
   @media(max-width: 600px) {
     left:calc(100vw - 3rem);
-    top: calc(100vh - 5rem);
+    top: calc(100vh - 12rem);
   }
 }
 
@@ -42,7 +42,7 @@
   padding: 8px;
   border-radius: 10px;
   text-align: center;
-  background: #f1e3b8;
+  background: rgb(207, 219, 211);
   left:calc(100vw - 100px);
   top: calc(100vh - 100px);
   transform: translateX(-80px);
@@ -61,7 +61,7 @@
     transform: translateX(0);
     width: 40px;
     left:calc(100vw - 3rem);
-    top: calc(100vh - 5rem);
+    top: calc(100vh - 12rem);
 
     p {
       opacity: 0;
