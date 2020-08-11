@@ -32,7 +32,6 @@ const AuthContextProvider = (props) => {
         fetch(`/api/token`,{method:"POST", body: userToken})
           .then( (response) => {
             if(response.ok){
-              console.log(response.body);
               setUserInfo(response.body);
               setIsAuthenticated(true);
             }else{
@@ -50,7 +49,6 @@ const AuthContextProvider = (props) => {
 
   const loginHandler = () => {
     setIsAuthenticated(true);
-    console.log(isAuthenticated);
   }
   const logoutHandler = () => {
     setIsAuthenticated(false);

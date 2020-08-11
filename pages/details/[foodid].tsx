@@ -156,6 +156,18 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
     setPortion(props.amount);
   }
 
+  const  SubmitMenu = async (fdcid, portion)=>{
+    console.log("Request Adding", fdcid, portion);
+    const response = await fetch(`/api/add_meal`,{method:"POST", body: JSON.stringify({
+        currentMeal: cartContext.currentMeal,
+        fdcid: fdcid,
+        portion: portion,
+        userToken: cartContext.userToken
+      })})
+    if (response.ok){
+      const data = await response.json()
+    }
+  }
 
   const addMenuItemHandler = () =>{
     //Current testing
@@ -180,6 +192,7 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
         energyPerHundredGram: energyPerHundredGram,
         energyUnit: energyUnit
       }
+      SubmitMenu(foodDetail.fdc_id, portion);
       cartContext.addItems(item);
       console.log(item);
       PopupAlert.show({

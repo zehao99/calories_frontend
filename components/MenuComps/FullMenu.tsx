@@ -49,7 +49,7 @@ const FullMenu = (props) => {
                      exit={{opacity: 0, y: 0, height: "100%"}}>
   <div className={styles.todayMenuContainer}>
     <div className={styles.todayMenuClose}>
-      <h3>Today's Menu</h3>
+      <h3>Today's {cartContext.currentMeal} Menu</h3>
       <FontAwesomeIcon icon="times" width="14px" height="14" onClick={props.clickClose} style={{cursor: "pointer"}}/>
     </div>
     <div className={styles.todayMenuItem}>

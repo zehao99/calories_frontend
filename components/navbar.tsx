@@ -52,11 +52,11 @@ const Navbar = () => {
           <a><img src="/logo.png" alt="logo" className="logo" style={{height: "30px"}}/></a>
         </Link>
         <Menu mode="horizontal">
-          <Menu.Item key="2" id="navbar-today-menu" >
+          {authContext.isAuth ? <Menu.Item key="2" id="navbar-today-menu">
             <FontAwesomeIcon icon="utensils" width="14" height="14"/>
             <span onClick={cartContext.toggleMenu} style={{marginLeft: "0.5rem"}}
-                  >Meal</span>
-          </Menu.Item>
+            >{cartContext.currentMeal}</span>
+          </Menu.Item> : null}
           {
             authContext.isAuth ? user : login
           }

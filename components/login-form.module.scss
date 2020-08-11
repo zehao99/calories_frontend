@@ -13,6 +13,8 @@
   background: white;
   width: 20rem;
   max-width: 90%;
+  max-height: 90vh;
+  overflow: auto;
   left: calc(50% - 10rem);
   top: 20vh;
   margin: auto;
@@ -22,6 +24,27 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.signUpForm{
+  z-index: 100;
+  background: white;
+  width: 20rem;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow: auto;
+  left: calc(50% - 10rem);
+  top: 20vh;
+  margin: auto;
+  position: fixed;
+  padding: 1rem;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  @media (max-width: 500px) {
+    top: 6vh;
+  }
 }
 
 .loginFormElements{

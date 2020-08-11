@@ -11,7 +11,6 @@ const currURL = "http://localhost:3000";
 const LoginForm = (props) => {
   const cartContext = useContext(CartContext);
   const authContext = useContext(AuthContext);
-  console.log(authContext);
   const [isAuthed, setisAuthed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [inputInfoLogin, setInputInfoLogin] = useState({
@@ -29,7 +28,7 @@ const LoginForm = (props) => {
         name: "Password",
         type: 'password',
         placeholder: 'Please enter your password',
-        autocomplete: 'current-password',
+        autoComplete: 'current-password',
       },
       value: "",
     }
@@ -43,6 +42,8 @@ const LoginForm = (props) => {
         placeholder: 'Please enter your username',
       },
       value: "",
+      alertMsg: "! Please Choose Another Username",
+      showAlert: false,
     },
     display_name: {
       config: {
@@ -51,15 +52,19 @@ const LoginForm = (props) => {
         placeholder: 'Please enter your nickname',
       },
       value: "",
+      alertMsg: "",
+      showAlert: false,
     },
     password: {
       config: {
         name: "Password",
         type: 'password',
         placeholder: 'Please enter your password',
-        autocomplete: 'new-password',
+        autoComplete: 'new-password',
       },
       value: "",
+      alertMsg: "! Please choose a longer password",
+      showAlert: false,
     },
 
     password_confirm: {
@@ -67,9 +72,11 @@ const LoginForm = (props) => {
         name: "Password Confirm",
         type: 'password',
         placeholder: 'Please confirm your password',
-        autocomplete: 'new-password',
+        autoComplete: 'new-password',
       },
       value: "",
+      alertMsg: "! Two passwords are different",
+      showAlert: false,
     },
 
     email: {
@@ -79,6 +86,8 @@ const LoginForm = (props) => {
         placeholder: 'Please enter your email',
       },
       value: "",
+      alertMsg: "",
+      showAlert: false,
     }
   })
 
@@ -162,9 +171,17 @@ const LoginForm = (props) => {
   }
 
   const signupInputChangedHandler = (event, inputIdentifier) => {
+    event.persist();
     setInputInfoSignup((prevState) => {
-      prevState[inputIdentifier].value = event.target.value;
-      return prevState;
+      if(event.target != null) prevState[inputIdentifier].value = event.target.value;
+      if(prevState.username.value === "admin") prevState.username.showAlert = true;
+      else prevState.username.showAlert = false;
+      if(prevState.password.value.length > 0 && prevState.password.value.length < 4) prevState.password.showAlert = true;
+      else prevState.password.showAlert = false;
+      if(prevState.password.value !== "" && prevState.password_confirm.value !== "" && prevState.password.value !== prevState.password_confirm.value){
+        prevState.password_confirm.showAlert = true;
+      }else prevState.password_confirm.showAlert = false;
+      return {...prevState};
     });
   }
 
@@ -187,6 +204,8 @@ const LoginForm = (props) => {
     signupFormElementArray.push({
       id: key,
       config: inputInfoSignup[key].config,
+      alertMsg: inputInfoSignup[key].alertMsg,
+      showAlert: inputInfoSignup[key].showAlert
     })
   }
 
@@ -207,11 +226,12 @@ const LoginForm = (props) => {
   </div>)
 
   const signupForm = ((<div>
-    <form onSubmit={signupSubmitHandler} className={styles.loginForm}>
+    <form onSubmit={signupSubmitHandler} className={styles.signUpForm}>
       <h3>Welcome to Calories Search</h3>
       {signupFormElementArray.map(formElement => (
         <div key={formElement.id} className={styles.loginFormElements}>
           <h4 className={styles.loginFormInputTitle}>{formElement.config.name}</h4>
+          <h4 className={styles.loginFormInputAlert} style={{color:"red"}}>{formElement.showAlert ? formElement.alertMsg : null}</h4>
           <Input className={styles.loginFormInput} {...formElement.config} onChange={(e) => signupInputChangedHandler(e, formElement.id)}/>
         </div>
       ))}
