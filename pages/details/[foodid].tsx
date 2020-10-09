@@ -156,12 +156,12 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
     setPortion(props.amount);
   }
 
-  const  SubmitMenu = async (fdcid, portion)=>{
-    console.log("Request Adding", fdcid, portion);
+  const  SubmitMenu = async (fdc_id, portion)=>{
+    console.log("Request Adding", fdc_id, portion);
     const response = await fetch(`/api/add_meal`,{method:"POST", body: JSON.stringify({
         currentMeal: cartContext.currentMeal,
-        fdcid: fdcid,
-        portion: portion,
+        fdc_id: fdc_id,
+        amount: portion,
         userToken: cartContext.userToken
       })})
     if (response.ok){
@@ -186,13 +186,13 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
         })
       }
       let item = {
-        fdcid: foodDetail.fdc_id,
+        fdc_id: foodDetail.fdc_id,
         name: foodDetail.name,
-        portion: portion,
+        amount: portion,
         energyPerHundredGram: energyPerHundredGram,
         energyUnit: energyUnit
       }
-      SubmitMenu(foodDetail.fdc_id, portion);
+      // SubmitMenu(foodDetail.fdc_id, portion);
       cartContext.addItems(item);
       console.log(item);
       PopupAlert.show({

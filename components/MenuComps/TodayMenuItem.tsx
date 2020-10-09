@@ -9,10 +9,10 @@ import {CartContext} from "../../context/cart-context";
 const TodayMenuItem = (props) => {
   const cartContext = useContext(CartContext);
   const [num, setNum] = useState(props.num);
-  const [portion, setPortion] = useState(props.num);
+  const [amount, setamount] = useState(props.num);
   const inputRef = useRef();
   useEffect(() => {
-    setPortion(props.num);
+    setamount(props.num);
   }, [props.num]);
 
   useEffect(()=> {
@@ -20,14 +20,14 @@ const TodayMenuItem = (props) => {
     let inputValRef = inputRef.current.input.value;
     inputValRef = parseInt(inputValRef);
     const timer = setTimeout(() => {
-      if(portion === inputValRef) {
-        cartContext.changeItem(portion, props.fdcid);
+      if(amount === inputValRef) {
+        cartContext.changeItem(amount, props.fdc_id);
       }
     },100);
     return () =>{
       clearTimeout(timer);
     }
-  },[portion, inputRef]);
+  },[amount, inputRef]);
 
   function formatter(value) {
     if (typeof value  === "string"){
@@ -38,12 +38,12 @@ const TodayMenuItem = (props) => {
 
   const routeToDetailHandler = ()=>{
     Router.push({
-      pathname: '/details/'+props.fdcid,
+      pathname: '/details/'+props.fdc_id,
     }).then(() => window.scrollTo(0, 0));
   }
 
   const changeValueHandler = (event) => {
-    setPortion(parseInt(event));
+    setamount(parseInt(event));
   }
 
   return <div className={styles.todayMenuItemContainer}>
@@ -51,13 +51,13 @@ const TodayMenuItem = (props) => {
       {props.name}
     </div>
     <div className={styles.todayMenuItemInput}>
-      <FontAwesomeIcon icon="plus" width="14" height="14" onClick={props.addItemHandler.bind(this, props.fdcid)}
+      <FontAwesomeIcon icon="plus" width="14" height="14" onClick={props.addItemHandler.bind(this, props.fdc_id)}
                        style={{cursor: "pointer"}}/>
-      <InputNumber value={portion} size="middle" formatter={formatter} ref = {inputRef}
+      <InputNumber value={amount} size="middle" formatter={formatter} ref = {inputRef}
              style={{display: "inline", width: "60px", margin: "0 0.7rem"}} onChange={event => changeValueHandler(event)}/>
-      <FontAwesomeIcon icon="minus" width="14" height="14" onClick={portion > 1 ? props.decreaseItemHandler.bind(this, props.fdcid) : ()=>{}}
-                       style={portion <= 1 ? {color:"lightgray"} : {cursor: "pointer"}}/>
-      <FontAwesomeIcon icon="times" width="14" height="14" onClick={props.deleteItemHandler.bind(this, props.fdcid)}
+      <FontAwesomeIcon icon="minus" width="14" height="14" onClick={amount > 1 ? props.decreaseItemHandler.bind(this, props.fdc_id) : ()=>{}}
+                       style={amount <= 1 ? {color:"lightgray"} : {cursor: "pointer"}}/>
+      <FontAwesomeIcon icon="times" width="14" height="14" onClick={props.deleteItemHandler.bind(this, props.fdc_id)}
                        style={{cursor: "pointer", marginLeft: "0.7rem"}}/>
     </div>
 

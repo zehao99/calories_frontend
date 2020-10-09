@@ -1,4 +1,3 @@
-
 import {ParseMealToID} from "../../utils/parseMeal"
 import {stringify} from "querystring";
 
@@ -7,7 +6,8 @@ const BACKEND_PORT = process.env.BACKEND_PORT;
 
 export default async (req, res) => {
   let date = new Date();
-  function format (date, fmt) {
+
+  function format(date, fmt) {
     var o = {
       "M+": date.getMonth() + 1,
       "d+": date.getDate(),
@@ -19,11 +19,12 @@ export default async (req, res) => {
       if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
   }
-  let today_date = format(date,"yyyy-MM-dd");
+
+  let today_date = format(date, "yyyy-MM-dd");
 
   let reqBody = JSON.parse(req.body);
   let meal_id = ParseMealToID(reqBody["currentMeal"]);
-  let url = new URL(`http://${BACKEND_HOST}:${BACKEND_PORT}/user/get_current_meal`)
+  let url = new URL(`http://${BACKEND_HOST}:${BACKEND_PORT}/user/get_meal`)
   let params = {
     "date": today_date.toString(),
     "meal_id": meal_id.toString(),
@@ -36,13 +37,12 @@ export default async (req, res) => {
       "Authorization": "Bearer " + reqBody.userToken
     }
   })
-  console.log("entered here");
   if (response.ok) {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
-    const data = await response.json()
-    console.log(data);
-    res.end(JSON.stringify(data));
+    let data = await response.json();
+    if (data === null) data = "[]";
+    res.json(data);
   } else {
     res.statusCode = 404;
     res.end();

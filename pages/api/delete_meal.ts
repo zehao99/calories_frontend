@@ -24,18 +24,24 @@ export default async (req, res) => {
   let reqBody = JSON.parse(req.body);
   let meal_id = ParseMealToID(reqBody["currentMeal"]);
   let url = new URL(`http://${BACKEND_HOST}:${BACKEND_PORT}/user/delete_meal`)
-  console.log(reqBody,today_date,meal_id,req.body['fdcid']);
+  console.log(reqBody,today_date,meal_id,req.body['fdc_id']);
   let params = {
     "date": today_date.toString(),
     "meal_id": meal_id.toString(),
-    "fdc_id": reqBody.fdcid.toString()
+    "fdc_id": reqBody.fdc_id.toString()
   }
-  url.search = new URLSearchParams(params).toString();
+  const formData = new URLSearchParams();
+  for(let key in params){
+    formData.append(key.toString(), params[key]);
+  }
+  // url.search = new URLSearchParams(params).toString();
   const response = await fetch(url.toString(), {
-    method: "GET",
+    method: "DELETE",
     headers: {
-      "Authorization": "Bearer " + reqBody.userToken
-    }
+      "Authorization": "Bearer " + reqBody.userToken,
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    body: formData.toString(),
   })
   if (response.ok) {
     res.statusCode = 200;

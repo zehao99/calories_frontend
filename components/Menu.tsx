@@ -13,7 +13,11 @@ const Menu = () => {
   const [isAuth, setIsAuth] = useState(authContext.isAuth);
 
   useEffect(() => {
-    setShowMenu(cartContext.showMenu)
+    if(cartContext.showMenu === false){
+      setTimeout(()=>{setShowMenu(cartContext.showMenu)},300);
+    }else{
+      setShowMenu(cartContext.showMenu)
+  }
   }, [cartContext.showMenu]);
   useEffect(() => {
     setIsAuth(authContext.isAuth)
@@ -23,7 +27,7 @@ const Menu = () => {
   const clickOpen = () => {
     cartContext.toggleMenu();
   }
-
+  // {showMenu ? styles.todayMenuToggleShow : styles.todayMenuToggle}
   const clickClose = () => {
     cartContext.toggleMenu();
   }
@@ -34,7 +38,8 @@ const Menu = () => {
         <FontAwesomeIcon className={styles.todayMenuToggleBtn} icon="utensils" width="24px"/>
         <p>Meal</p>
       </div>
-      {showMenu && <FullMenu clickClose={clickClose}/>}
+      <FullMenu clickClose={clickClose}/>
+      {/*{showMenu && <FullMenu clickClose={clickClose}/>}*/}
     </div>
   </motion.div>
 

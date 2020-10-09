@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {log} from "util";
 
 const BACKEND_HOST = process.env.BACKEND_HOST;
 
@@ -8,7 +9,7 @@ export const CartContext = React.createContext({
 // item structure {
 //   fdc_id : xxxxxx;
 //   name: xxxxxx;
-//   portion: xxxxxx;
+//   amount: xxxxxx;
 //   energyPer100g: xxxxxx;
 //   energyUnit: xxxxx;
 // }
@@ -28,11 +29,11 @@ export const CartContext = React.createContext({
   },
   removeItems: (itemFcdId) => {
   },
-  decreaseItems: (itemFcdId, portion) => {
+  decreaseItems: (itemFcdId, amount) => {
   },
   setItems: (items) => {
   },
-  changeItem: (portion ,itemFdcId) => {},
+  changeItem: (amount ,itemfdc_id) => {},
   setUserToken: (userToken) => {}
 });
 
@@ -51,7 +52,7 @@ const CartContextProvider = (props, cartInfo) => {
       })})
     if (response.ok){
       let data = await response.json();
-      data = JSON.parse(data);
+      // data = JSON.parse(data);
       setItem(data);
       localStorage.setItem("userCart" + userToken, JSON.stringify([...data]));
       console.log("cart info fetched",data);
@@ -85,13 +86,13 @@ const CartContextProvider = (props, cartInfo) => {
     setShowMenu(!showMenu);
   }
 
-  const  SubmitMenu = async (fdcid, portion)=>{
+  const  SubmitMenu = async (fdc_id, amount)=>{
 
-    console.log("Request Adding", fdcid, portion);
+    console.log("Request Adding", fdc_id, amount);
     const response = await fetch(`/api/add_meal`,{method:"POST", body: JSON.stringify({
         currentMeal: currentMeal,
-        fdcid: fdcid,
-        portion: portion,
+        fdc_id: fdc_id,
+        amount: amount,
         userToken: userToken
       })})
     if (response.ok){
@@ -99,11 +100,11 @@ const CartContextProvider = (props, cartInfo) => {
     }
   }
 
-  const  DeleteMenu = async (fdcid)=>{
+  const  DeleteMenu = async (fdc_id)=>{
     console.log("Request Adding");
     const response = await fetch(`/api/delete_meal`,{method:"POST", body: JSON.stringify({
         currentMeal: currentMeal,
-        fdcid: fdcid,
+        fdc_id: fdc_id,
         userToken: userToken
       })})
     if (response.ok){
@@ -117,9 +118,10 @@ const CartContextProvider = (props, cartInfo) => {
       if (prevItem !== null) {
 
         prevItem.map(item => {
-          if (item.fdcid === itemInput.fdcid) {
-            item.portion += itemInput.portion;
-            SubmitMenu(item.fdcid,item.portion);
+          if (item.fdc_id === itemInput.fdc_id) {
+            item.amount += itemInput.amount;
+            console.log(itemInput);
+            SubmitMenu(item.fdc_id,item.amount);
             isNew = false;
           }
         })
@@ -133,27 +135,27 @@ const CartContextProvider = (props, cartInfo) => {
     });
   }
 
-  const removeItemsHandler = (itemFdcId) => {
+  const removeItemsHandler = (itemfdc_id) => {
     setItem((prevItem) => {
-      prevItem = prevItem.filter((e) => e.fdcid !== itemFdcId);
-      DeleteMenu(itemFdcId);
+      prevItem = prevItem.filter((e) => e.fdc_id !== itemfdc_id);
+      DeleteMenu(itemfdc_id);
       localStorage.setItem("userCart" + userToken, JSON.stringify([...prevItem]));
       return [...prevItem]
     });
   }
 
-  const decreaseItemsHandler = (itemFdcId, portion) => {
+  const decreaseItemsHandler = (itemfdc_id, amount) => {
     setItem((prevItem) => {
       let isPresent = false;
       if (prevItem !== null) {
         prevItem.map(item => {
-          if (item.fdcid === itemFdcId) {
-            item.portion -= portion;
-            SubmitMenu(item.fdcid,item.portion);
+          if (item.fdc_id === itemfdc_id) {
+            item.amount -= amount;
+            SubmitMenu(item.fdc_id,item.amount);
             isPresent = true;
           }
         })
-        // prevItem = prevItem.filter(item => item.portion > 0);
+        // prevItem = prevItem.filter(item => item.amount > 0);
       }
       if (!isPresent) console.log("Item don't exist.");
       localStorage.setItem("userCart" + userToken, JSON.stringify([...prevItem]));
@@ -161,13 +163,13 @@ const CartContextProvider = (props, cartInfo) => {
     });
   }
 
-  const changeItemHandler = (portion ,itemFdcId) => {
+  const changeItemHandler = (amount ,itemfdc_id) => {
     setItem(prevItem => {
       if (prevItem !== null) {
-        SubmitMenu(itemFdcId,portion);
+        SubmitMenu(itemfdc_id,amount);
         prevItem.map(item => {
-          if (item.fdcid === itemFdcId) {
-            item.portion = parseInt(portion);
+          if (item.fdc_id === itemfdc_id) {
+            item.amount = parseInt(amount);
           }
         })
         localStorage.setItem("userCart" + userToken, JSON.stringify([...prevItem]))

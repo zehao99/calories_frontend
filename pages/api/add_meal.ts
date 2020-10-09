@@ -28,15 +28,21 @@ export default async (req, res) => {
   let params = {
     "date": today_date.toString(),
     "meal_id": meal_id.toString(),
-    "fdc_id": reqBody["fdcid"].toString(),
-    "amount": reqBody["portion"].toString()
+    "fdc_id": reqBody["fdc_id"].toString(),
+    "amount": reqBody["amount"].toString()
   }
-  url.search = new URLSearchParams(params).toString();
+  const formData = new URLSearchParams();
+  for(let key in params){
+    formData.append(key.toString(), params[key]);
+  }
+  // url.search = new URLSearchParams(params).toString();
   const response = await fetch(url.toString(), {
-    method: "GET",
+    method: "POST",
     headers: {
-      "Authorization": "Bearer " + reqBody.userToken
-    }
+      "Authorization": "Bearer " + reqBody.userToken,
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    body: formData.toString(),
   })
   if (response.ok) {
     res.statusCode = 200;
