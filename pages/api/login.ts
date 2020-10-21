@@ -15,6 +15,7 @@ export default async (req, res) => {
   const response = await fetch(`http://${BACKEND_HOST}:${BACKEND_PORT}/login`,{
     method: "POST",
     headers: {
+      credentials: 'include',
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
     },
     body: formData.toString(),
@@ -22,6 +23,7 @@ export default async (req, res) => {
   if (response.ok) {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
+    res.setHeader('set-cookie', response.headers.get('set-cookie'));
     const data = await response.json();
     res.end(JSON.stringify(data));
   } else {
