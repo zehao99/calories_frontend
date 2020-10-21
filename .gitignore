@@ -8,6 +8,18 @@
 # testing
 /coverage
 
+#idea
+/.idea
+/.vscode
+
+#floobits
+.floo
+.flooignore
+
+#docker
+.dockerignore
+.editorconfig
+
 # next.js
 /.next/
 /out/
