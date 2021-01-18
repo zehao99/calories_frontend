@@ -11,9 +11,8 @@ export default function Home({data}) {
   useEffect(() => {
     //
     console.log("V081002:Adding user page")
-    var WINDOW_SIZE = window.innerHeight;
-    var div = document.getElementsByClassName('container')[0];
-    console.log(div)
+    const WINDOW_SIZE = window.innerHeight;
+    const div = document.getElementsByClassName('container')[0];
     div.setAttribute('style', `height:${WINDOW_SIZE}px`);
   });
   const [results, setResults] = useState<SearchResponse>([]);

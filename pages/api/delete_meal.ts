@@ -37,11 +37,12 @@ export default async (req, res) => {
   // url.search = new URLSearchParams(params).toString();
   const response = await fetch(url.toString(), {
     method: "DELETE",
+    credentials: "include",
     headers: {
-      "Authorization": "Bearer " + reqBody.userToken,
+      "cookie": req.headers.cookie,
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
     },
-    body: formData.toString(),
+    body: formData.toString()
   })
   if (response.ok) {
     res.statusCode = 200;

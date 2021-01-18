@@ -7,12 +7,12 @@ const BACKEND_PORT = process.env.BACKEND_PORT;
 
 export default async (req, res) => {
 
-
   const response = await fetch(`http://${BACKEND_HOST}:${BACKEND_PORT}/user`, {
     method: "GET",
     headers: {
-      "Authorization": "Bearer " + req.body
-    }
+      "cookie": req.headers.cookie
+    },
+    credentials: 'include',
   })
   if (response.ok) {
     res.statusCode = 200;

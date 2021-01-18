@@ -162,7 +162,6 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
         currentMeal: cartContext.currentMeal,
         fdc_id: fdc_id,
         amount: portion,
-        userToken: cartContext.userToken
       })})
     if (response.ok){
       const data = await response.json()
@@ -281,7 +280,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const {params} = context;
   const response = await fetch(`http://${BACKEND_HOST}:${BACKEND_PORT}/api/food?fdc_id=` + params.foodid);
   const foodDetail: FoodDetail = response.ok ? (await response.json()) : {};
-  console.log("foodDetail"+foodDetail)
   return {
     props: foodDetail
   }

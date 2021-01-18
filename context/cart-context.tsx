@@ -14,7 +14,6 @@ export const CartContext = React.createContext({
 //   energyUnit: xxxxx;
 // }
   items: [],
-  userToken: "",
   // current meal:
   // 1 : breakfast
   // 2 : brunch
@@ -47,23 +46,24 @@ const CartContextProvider = (props, cartInfo) => {
     console.log("fetching original data")
     let url = "/api/this_meal";
     const response = await fetch(url,{method:"POST", body: JSON.stringify({
-        currentMeal: currentMeal,
-        userToken: userToken
+        currentMeal: currentMeal
       })})
     if (response.ok){
       let data = await response.json();
       // data = JSON.parse(data);
       setItem(data);
-      localStorage.setItem("userCart" + userToken, JSON.stringify([...data]));
+      localStorage.setItem("userCart", JSON.stringify([...data]));
       console.log("cart info fetched",data);
     }else{
-      console.log("Failed to fetch initial menu")
+      console.log("Failed to fetch initial menu, please login")
     }
   }
 
   useEffect(()=>{
     // setItem(cartInfo);
-    console.log(cartInfo);
+    setTimeout(async () => {
+      await GetMenu();
+    }, 0)
     let date = new Date();
     let hour = date.getHours();
     if(hour < 10){
@@ -92,8 +92,7 @@ const CartContextProvider = (props, cartInfo) => {
     const response = await fetch(`/api/add_meal`,{method:"POST", body: JSON.stringify({
         currentMeal: currentMeal,
         fdc_id: fdc_id,
-        amount: amount,
-        userToken: userToken
+        amount: amount
       })})
     if (response.ok){
       const data = await response.json()
@@ -101,11 +100,10 @@ const CartContextProvider = (props, cartInfo) => {
   }
 
   const  DeleteMenu = async (fdc_id)=>{
-    console.log("Request Adding");
+    console.log("Request Deleting");
     const response = await fetch(`/api/delete_meal`,{method:"POST", body: JSON.stringify({
         currentMeal: currentMeal,
-        fdc_id: fdc_id,
-        userToken: userToken
+        fdc_id: fdc_id
       })})
     if (response.ok){
       const data = await response.json()
@@ -126,11 +124,11 @@ const CartContextProvider = (props, cartInfo) => {
           }
         })
       } else {
-        localStorage.setItem("userCart" + userToken, JSON.stringify([itemInput]))
+        localStorage.setItem("userCart", JSON.stringify([itemInput]))
         return [itemInput];
       }
       if (isNew) prevItem.push(itemInput);
-      localStorage.setItem("userCart" + userToken, JSON.stringify([...prevItem]))
+      localStorage.setItem("userCart", JSON.stringify([...prevItem]))
       return [...prevItem];
     });
   }
@@ -139,7 +137,7 @@ const CartContextProvider = (props, cartInfo) => {
     setItem((prevItem) => {
       prevItem = prevItem.filter((e) => e.fdc_id !== itemfdc_id);
       DeleteMenu(itemfdc_id);
-      localStorage.setItem("userCart" + userToken, JSON.stringify([...prevItem]));
+      localStorage.setItem("userCart", JSON.stringify([...prevItem]));
       return [...prevItem]
     });
   }
@@ -158,7 +156,7 @@ const CartContextProvider = (props, cartInfo) => {
         // prevItem = prevItem.filter(item => item.amount > 0);
       }
       if (!isPresent) console.log("Item don't exist.");
-      localStorage.setItem("userCart" + userToken, JSON.stringify([...prevItem]));
+      localStorage.setItem("userCart", JSON.stringify([...prevItem]));
       return [...prevItem];
     });
   }
@@ -172,7 +170,7 @@ const CartContextProvider = (props, cartInfo) => {
             item.amount = parseInt(amount);
           }
         })
-        localStorage.setItem("userCart" + userToken, JSON.stringify([...prevItem]))
+        localStorage.setItem("userCart", JSON.stringify([...prevItem]))
         return [...prevItem];
       }
     })
@@ -180,7 +178,7 @@ const CartContextProvider = (props, cartInfo) => {
 
   const setItemHandler = (items) => {
     setItem(items);
-    localStorage.setItem("userCart" + userToken, JSON.stringify(item));
+    localStorage.setItem("userCart", JSON.stringify(item));
   }
   const setUserTokenHandler = (userTokenNew)=> {
     setUserToken(userTokenNew);
@@ -188,7 +186,6 @@ const CartContextProvider = (props, cartInfo) => {
 
   return <CartContext.Provider value={{
     items: item,
-    userToken: userToken,
     showMenu: showMenu,
     currentMeal: currentMeal,
     toggleMenu: toggleMenuHandler,

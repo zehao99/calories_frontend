@@ -24,25 +24,21 @@ const AuthContextProvider = (props) => {
   const [userInfo, setUserInfo] = useState({});
   // useEffect(()=> {Cookie.set("userInfo", userInfo)},[userInfo])
   useEffect( ()=> {
-      const userToken = localStorage.getItem("userToken");
-      if(userToken){
-        cartContext.setUserToken(userToken);
-        const userCart = localStorage.getItem("userCart" + userToken);
-        cartContext.setItems(JSON.parse(userCart));
-        fetch(`/api/token`,{method:"POST", body: userToken})
-          .then( (response) => {
-            if(response.ok){
-              setUserInfo(response.body);
-              setIsAuthenticated(true);
-            }else{
-              setIsAuthenticated(false);
-            }
-          }).catch((error) => {
-          setIsAuthenticated(false);
-        });
-      }else{
-        localStorage.clear();
-      }
+      const userCart = localStorage.getItem("userCart");
+      cartContext.setItems(JSON.parse(userCart));
+      fetch(`/api/token`,{method:"POST"})
+        .then( (response) => {
+          if(response.ok){
+            setIsAuthenticated(true);
+          }else{
+            setIsAuthenticated(false);
+          }
+          return response.json()
+        }).then((data) => {
+          setUserInfo(data);
+      }).catch((error) => {
+        setIsAuthenticated(false);
+      });
     }
   ,[])
 
@@ -51,10 +47,19 @@ const AuthContextProvider = (props) => {
     setIsAuthenticated(true);
   }
   const logoutHandler = () => {
-    setIsAuthenticated(false);
-    localStorage.clear();
-    sessionStorage.clear();
-    location.reload();
+    fetch('/api/logout', {method: "GET"}).then((res) => {
+      if(res.ok){
+        setIsAuthenticated(false);
+        localStorage.clear();
+        sessionStorage.clear();
+        location.reload();
+      }
+    }).catch((err) => {
+      PopupAlert.show({
+        title: "Logout Failed",
+        message: "Please try again."
+      })
+    });
 
   }
 
@@ -64,7 +69,7 @@ const AuthContextProvider = (props) => {
         login: loginHandler,
         logout: logoutHandler,
         isAuth: isAuthenticated,
-        userInfo: {}
+        userInfo: userInfo
       }}>{props.children}</AuthContext.Provider>
   )
 }

@@ -15,7 +15,6 @@ export default async (req, res) => {
   const response = await fetch(`http://${BACKEND_HOST}:${BACKEND_PORT}/login`,{
     method: "POST",
     headers: {
-      credentials: 'include',
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
     },
     body: formData.toString(),

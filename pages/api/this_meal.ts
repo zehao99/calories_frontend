@@ -34,8 +34,9 @@ export default async (req, res) => {
   const response = await fetch(url.toString(), {
     method: "GET",
     headers: {
-      "Authorization": "Bearer " + reqBody.userToken
-    }
+      "cookie": req.headers.cookie,
+    },
+    credentials: "include"
   })
   if (response.ok) {
     res.statusCode = 200;
