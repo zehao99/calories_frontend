@@ -7,11 +7,14 @@ export default function Gauge (props) {
       toolbox: {
         show: false,
       },
+      textStyle: {
+        fontFamily: "Quicksand",
+      },
       series: [
         {
           type: 'gauge',
           detail: {
-            fontSize: 18,
+            fontSize: 20,
             formatter: 'Total {value} kCal',
             offsetCenter: [0, 120],
           },

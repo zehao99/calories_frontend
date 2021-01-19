@@ -3,6 +3,7 @@ import styles from "./UserSummaryCard.module.scss";
 import {calculateEnergyForOneDay, calculateBMR} from "../../utils/calculations";
 import {MealOnID} from "../../types/userDetail";
 import dynamic from "next/dynamic";
+import monthTransfer, {dayTransfer} from "../../utils/monthTransfer";
 
 const Gauge = dynamic(
   () => import('../../components/UserPage/GaugeChart'),
@@ -25,7 +26,7 @@ const UserSummaryCard = (props) => {
   }, [props])
 
   return(<div className={styles.summaryCardContainer}>
-    <p className={styles.gaugeTitle}>Calories Intake on {mm + '.' + dd + '.'}</p>
+    <p className={styles.gaugeTitle}>Calories Intake on {monthTransfer(mm) + ' ' + dayTransfer(dd)}</p>
     <div className={styles.valueGauge}>
       <Gauge min={0} max={Math.floor(bmrApprox / 0.8)} value={totalEnergy}/>
     </div>

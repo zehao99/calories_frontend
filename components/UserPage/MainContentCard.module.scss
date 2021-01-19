@@ -1,6 +1,5 @@
 .mainContentContainer {
   background: rgba(255, 255, 255, 0.8);
-  min-height: 60vh;
   border-radius: 15px;
   margin: 2rem 0.5rem 0.5rem;
   padding: 1rem;
@@ -13,4 +12,18 @@
 .lineChartArea {
   margin-top: 1rem;
   width: 100%;
+}
+
+.lineChartTitle {
+  font-size: 1.3rem;
+}
+.pieChartArea {
+  margin-top: 1rem;
+  width: 100%;
+  height: auto;
+}
+
+.pieChartTitle{
+  font-size: 1.3rem;
+  margin: 1.5rem 0.5rem -2rem;
 }
