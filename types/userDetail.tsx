@@ -1,7 +1,12 @@
+export type FoodNutrient = {
+  [key: string] : number,
+}
+
 export type FoodBio = {
   fdc_id: number,
-  name: string,
+  description: string,
   amount:number,
+  nutrient: Array<FoodNutrient>,
 }
 
 export type MealOnID = {

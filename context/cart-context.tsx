@@ -23,6 +23,7 @@ export const CartContext = React.createContext({
   // 6 : don't eat
   currentMeal: "",
   showMenu: false,
+  getItems: ()=>{},
   toggleMenu: ()=>{},
   addItems: (item) => {
   },
@@ -61,9 +62,6 @@ const CartContextProvider = (props, cartInfo) => {
 
   useEffect(()=>{
     // setItem(cartInfo);
-    setTimeout(async () => {
-      await GetMenu();
-    }, 0)
     let date = new Date();
     let hour = date.getHours();
     if(hour < 10){
@@ -188,6 +186,7 @@ const CartContextProvider = (props, cartInfo) => {
     items: item,
     showMenu: showMenu,
     currentMeal: currentMeal,
+    getItems: GetMenu,
     toggleMenu: toggleMenuHandler,
     addItems: addItemsHandler,
     removeItems: removeItemsHandler,
@@ -197,4 +196,6 @@ const CartContextProvider = (props, cartInfo) => {
     setUserToken: setUserTokenHandler
   }}>{props.children}</CartContext.Provider>
 }
+
+// @ts-ignore
 export default CartContextProvider;

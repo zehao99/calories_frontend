@@ -1,0 +1,21 @@
+.userInfoContainer {
+  margin: auto;
+  padding-top: 45px;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+}
+
+.userSummaryContainer {
+  width: 100%;
+  height: 100vh;
+  flex: 1;
+}
+
+.mainUserContentContainer {
+  width: 100%;
+  height: 100vh;
+  flex: 2;
+}

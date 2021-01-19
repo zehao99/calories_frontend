@@ -40,7 +40,7 @@ const Navbar = () => {
   </Menu.Item>
 
   const user = <SubMenu icon={<FontAwesomeIcon icon="user" width="14" height="14" style={{marginRight:"0.5rem"}}/>} title="User">
-    <Menu.Item key="user:1"><Link as={ `/user/${authContext.userInfo["username"]}`} href={ "/user/[userid]"}>My Page</Link></Menu.Item>
+    <Menu.Item key="user:1"><Link as={ `/user/tracker`} href={ "/user/[userid]"}>My Page</Link></Menu.Item>
       <Menu.Item key="user:2" onClick={loginHandler}>LogOut</Menu.Item>
   </SubMenu>
 

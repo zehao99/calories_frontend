@@ -67,8 +67,6 @@ export default function PieChart(props: PieChartProps) {
 
   return (
     <ReactEcharts option={option}/>
-
-
   );
 
 }

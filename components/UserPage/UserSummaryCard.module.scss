@@ -1,0 +1,25 @@
+.summaryCardContainer {
+  border-radius: 15px;
+  min-height: 30vh;
+  margin: 5rem 0.5rem 0.5rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.gaugeTitle {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  margin-bottom: -0.3rem;
+}
+
+.nameTag {
+  font-size: 1.4rem;
+}
+
+.valueGauge {
+  width: 100%;
+}
