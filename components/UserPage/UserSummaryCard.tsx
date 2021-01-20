@@ -6,11 +6,13 @@ import dynamic from "next/dynamic";
 import monthTransfer, {dayTransfer} from "../../utils/monthTransfer";
 
 const Gauge = dynamic(
-  () => import('../../components/UserPage/GaugeChart'),
+  () => import('../Charts/GaugeChart'),
   {ssr: false}
 )
 
-
+const retainOneDigit = (num : number): number => {
+  return Math.round(num * 10) / 10;
+}
 
 const UserSummaryCard = (props) => {
   const time = new Date(props.mostRecentDay);
@@ -18,26 +20,26 @@ const UserSummaryCard = (props) => {
   const mm = String(time.getMonth() + 1).padStart(2, '0');
 
   const [totalEnergy, setTotalEnergy] = useState(calculateEnergyForOneDay(props.mostRecentDayMeal));
-
-  const bmrApprox = calculateBMR(184, 76.7, 24, "Male")
+  console.log(props.user.gender === "Male");
+  const bmrApprox = calculateBMR(props.user.height, props.user.weight, props.user.age, props.user.gender);
 
   useEffect(() => {
     setTotalEnergy(calculateEnergyForOneDay(props.mostRecentDayMeal));
   }, [props])
 
   return(<div className={styles.summaryCardContainer}>
-    <p className={styles.gaugeTitle}>Calories Intake on {monthTransfer(mm) + ' ' + dayTransfer(dd)}</p>
+    <div className={styles.nameTag}>
+      <p>{totalEnergy > bmrApprox + 400 ? "You PIG!! " + props.user.display_name : "Hi! " + props.user.display_name}</p>
+    </div>
+    <p className={styles.gaugeTitle}> Here's Your Calories Intake<br />on {monthTransfer(mm) + ' ' + dayTransfer(dd)}</p>
     <div className={styles.valueGauge}>
       <Gauge min={0} max={Math.floor(bmrApprox / 0.8)} value={totalEnergy}/>
     </div>
-    <div className={styles.nameTag}>
-      <p>{totalEnergy > bmrApprox + 400 ? "You PIG!! " + props.user.display_name : props.user.display_name}</p>
-    </div>
     <div>
-      <p>Height: {"N/A"} cm</p>
-      <p>Weight: {"N/A"} kg</p>
-      <p>Age: {"N/A"}</p>
-      <p>Gender: {"Male"}</p>
+      <p>Height: {retainOneDigit(props.user.height)} cm</p>
+      <p>Weight: {retainOneDigit(props.user.weight)} kg</p>
+      <p>Age: {props.user.age}</p>
+      <p>Gender: {props.user.gender}</p>
       <p>BMR: {bmrApprox} kCal/Day</p>
     </div>
   </div>);

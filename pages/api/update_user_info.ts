@@ -7,12 +7,15 @@ export default async (req, res) => {
   for(let key in req.body){
     formData.append(key.toString(), req.body[key]);
   }
-  const response = await fetch(`http://${BACKEND_HOST}:${BACKEND_PORT}/signup`,{
+  let url = new URL(`http://${BACKEND_HOST}:${BACKEND_PORT}/user/update_info`)
+  const response = await fetch(url.toString(), {
     method: "POST",
+    credentials: "include",
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      "cookie": req.headers.cookie,
+      'Content-Type': 'application/json'
     },
-    body: formData.toString(),
+    body: req.body,
   })
   if (response.ok) {
     res.statusCode = 200;
@@ -20,6 +23,7 @@ export default async (req, res) => {
     const data = await response.json();
     res.end(JSON.stringify(data));
   } else {
+    console.log(response);
     res.statusCode = 404;
     res.end();
   }

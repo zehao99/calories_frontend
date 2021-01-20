@@ -23,3 +23,6 @@ export type UserDetail = {
   user_id : number,
   meals_on_date : Array<MealsOnDate>
 }
+
+
+export type NutritionInDays = {}

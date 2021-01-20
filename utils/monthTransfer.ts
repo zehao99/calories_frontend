@@ -1,4 +1,3 @@
-import {css} from "next/dist/build/webpack/config/blocks/css";
 
 export default function monthTransfer (month:string) {
   switch (month) {
@@ -24,6 +23,10 @@ export function dayTransfer(day: string) {
     case 1 : return "1st.";
     case 2 : return "2nd.";
     case 3 : return "3rd.";
+    case 21 : return "21st.";
+    case 22 : return "22nd.";
+    case 23 : return "23rd.";
+    case 31 : return "31st.";
     default: return d.toString() + "th.";
   }
 }

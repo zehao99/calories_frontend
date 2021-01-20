@@ -114,8 +114,6 @@ const LoginForm = (props) => {
       authContext.login();
       const userToken = await response.json();
       console.log(userToken);
-      localStorage.setItem("userToken", userToken["access_token"]);
-      cartContext.setUserToken(userToken["access_token"]);
       props.onClose();
       setIsLoading(false);
       // location.reload();

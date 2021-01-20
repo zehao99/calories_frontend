@@ -41,7 +41,7 @@ export default function Gauge (props) {
             show: false,
           },
           pointer: {
-            length: 90,
+            length: 80,
             width: 3,
           },
           data: [{value: props.value}],

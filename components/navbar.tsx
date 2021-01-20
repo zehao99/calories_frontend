@@ -41,7 +41,8 @@ const Navbar = () => {
 
   const user = <SubMenu icon={<FontAwesomeIcon icon="user" width="14" height="14" style={{marginRight:"0.5rem"}}/>} title="User">
     <Menu.Item key="user:1"><Link as={ `/user/tracker`} href={ "/user/[userid]"}>My Page</Link></Menu.Item>
-      <Menu.Item key="user:2" onClick={loginHandler}>LogOut</Menu.Item>
+    <Menu.Item key="user:3"><Link as={ `/user/details/infoPage`} href={ "/user/details/[userid]"}>My Info</Link></Menu.Item>
+    <Menu.Item key="user:2" onClick={loginHandler}>LogOut</Menu.Item>
   </SubMenu>
 
   return (

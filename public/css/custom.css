@@ -130,6 +130,13 @@
   width: 100%;
 }
 
+.ant-picker-calendar {
+  background: none !important;
+}
+
+.ant-picker-panel {
+  background: none !important;
+}
 
 @media (max-width: 500px) {
   .ant-table-thead > tr > th, .ant-table-tbody > tr > td {

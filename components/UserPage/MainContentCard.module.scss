@@ -1,8 +1,35 @@
-.mainContentContainer {
-  background: rgba(255, 255, 255, 0.8);
+.calendarViewOfFood {
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 15px;
   margin: 2rem 0.5rem 0.5rem;
-  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: start;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+.calendarArea {
+  margin: 1rem 0 1rem 0.5rem;
+  width: 300px;
+  height: 340px;
+}
+
+.dailyFood {
+  flex: 1;
+  @media (max-width: 850px) {
+    width: 100%;
+  }
+}
+
+.mainContentContainer {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  margin: 2rem 0.5rem 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,10 +39,15 @@
 .lineChartArea {
   margin-top: 1rem;
   width: 100%;
+  @media (max-width: 850px) {
+    margin-left: 0.8rem;
+  }
 }
 
 .lineChartTitle {
+  text-align: center;
   font-size: 1.3rem;
+  margin-top: 2rem;
 }
 .pieChartArea {
   margin-top: 1rem;
@@ -24,6 +56,37 @@
 }
 
 .pieChartTitle{
+  text-align: center;
   font-size: 1.3rem;
   margin: 1.5rem 0.5rem -2rem;
+}
+.tableArea{
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.tableTitle {
+  text-align: center;
+  font-size: 1.3rem;
+  margin: 1rem 0.5rem;
+}
+
+.daysSelector {
+  width: 100%;
+  margin-top: 2rem;
+  padding: 0.5rem 1rem 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.selectorInfo {
+  text-align: end;
+}
+
+.treeSelector {
+  width: 20%;
+  @media (max-width: 500px) {
+    width: 40%;
+  }
 }

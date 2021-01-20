@@ -34,14 +34,14 @@ export default function LineChart (props) {
         show: true,
         realtime: true,
         start: 65,
-        end: 85,
+        end: 100,
         fillerColor: 'rgba(113,101,81,0.2)',
       },
       {
         type: 'inside',
         realtime: true,
         start: 65,
-        end: 85,
+        end: 100,
 
       }
     ],

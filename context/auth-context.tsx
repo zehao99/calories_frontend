@@ -8,7 +8,7 @@ import {CartContext} from "./cart-context";
 export const AuthContext = React.createContext(
   {
     isAuth: false,
-    userInfo: {},
+    userInfo: {username: "NOT_LOGGED_IN", displayed_name: "NOT_LOGGED_IN", disabled: true, height: 0.0, weight: 0.0, age: 0, gender: "N/A"},
     login: () => {
     },
     logout: () => {
@@ -21,7 +21,7 @@ const AuthContextProvider = (props) => {
   const cartContext = useContext(CartContext);
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userInfo, setUserInfo] = useState({});
+  const [userInfo, setUserInfo] = useState({username: "NOT_LOGGED_IN", displayed_name: "NOT_LOGGED_IN", disabled: true, height: 0.0, weight: 0.0, age: 0, gender: "N/A"});
   // useEffect(()=> {Cookie.set("userInfo", userInfo)},[userInfo])
   useEffect( ()=> {
       const userCart = localStorage.getItem("userCart");
@@ -36,6 +36,7 @@ const AuthContextProvider = (props) => {
           return response.json()
         }).then((data) => {
           setUserInfo(data);
+        console.log(data);
       }).catch((error) => {
         setIsAuthenticated(false);
       });

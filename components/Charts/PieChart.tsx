@@ -1,8 +1,5 @@
 import ReactEcharts from 'echarts-for-react';
 
-import CanvasJSReact from '../assets/canvasjs.react';
-
-var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 type PieChartProps = {
   protein: number,

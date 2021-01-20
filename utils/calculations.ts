@@ -1,4 +1,5 @@
-import {FoodBio, MealOnID, UserDetail} from "../types/userDetail";
+import {FoodBio, MealOnID, UserDetail, NutritionInDays} from "../types/userDetail";
+import {number} from "prop-types";
 
 export const calculateBMR = (height:number, weight:number, age:number, gender:"Male"|"Female"): number => {
   if(gender === "Male") {
@@ -65,27 +66,31 @@ export const padDays = (days: Array<Date>, parameter: Array<number>) => {
   return {dates: dateAnsArr, params: paramAnsArr};
 }
 
-export const calculateAllNutritionsInLastWeek = (userDetail: UserDetail) => {
-    const meals = userDetail.meals_on_date;
-    let oneWeekBefore = new Date();
-    oneWeekBefore.setDate(oneWeekBefore.getDate() - 8);
-    let nutrientLog = {};
-    meals.forEach((mealOnDate) => {
-      if(new Date(mealOnDate.date) > oneWeekBefore) {
-        mealOnDate.meals_on_id.forEach((meal) => {
-          meal.meals.forEach((food) => {
-            food.nutrient.forEach((n) => {
-              for(let key in n) {
-                if(!nutrientLog[key]) {
-                  nutrientLog[key] = food.amount * n[key] / 100;
-                } else {
-                  nutrientLog[key] += food.amount * n[key] / 100;
-                }
+export const calculateAllNutritionsInLastNDays = (userDetail: UserDetail, N : number) : NutritionInDays => {
+  const meals = userDetail.meals_on_date;
+  const nDaysBefore = new Date();
+  nDaysBefore.setDate(nDaysBefore.getDate() - N);
+  let nutrientLog = {};
+  meals.forEach((mealOnDate) => {
+    if(new Date(mealOnDate.date) > nDaysBefore) {
+      mealOnDate.meals_on_id.forEach((meal) => {
+        meal.meals.forEach((food) => {
+          food.nutrient.forEach((n) => {
+            for(let key in n) {
+              if(!nutrientLog[key]) {
+                nutrientLog[key] = food.amount * n[key] / 100;
+              } else {
+                nutrientLog[key] += food.amount * n[key] / 100;
               }
-            })
+            }
           })
         })
-      }
-    })
-    return nutrientLog;
+      })
+    }
+  })
+  return nutrientLog;
+}
+
+export const calculateAllNutritionsInLastWeek = (userDetail: UserDetail) : NutritionInDays => {
+    return calculateAllNutritionsInLastNDays(userDetail, 7);
 }

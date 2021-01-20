@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import {log} from "util";
 
 const BACKEND_HOST = process.env.BACKEND_HOST;
 
@@ -34,14 +33,29 @@ export const CartContext = React.createContext({
   setItems: (items) => {
   },
   changeItem: (amount ,itemfdc_id) => {},
-  setUserToken: (userToken) => {}
 });
+
+const getMealFromHour = (hour) => {
+  if(hour < 10){
+    return "Breakfast";
+  }else if(hour < 12){
+    return "Brunch";
+  }else if(hour < 14){
+    return "Lunch";
+  }else if(hour < 17){
+    return "Afternoon Tea";
+  }else if(hour < 21){
+    return "Dinner";
+  }else{
+    return "Don't Eat";
+  }
+}
 
 const CartContextProvider = (props, cartInfo) => {
   const [item, setItem] = useState([]);
-  const [userToken, setUserToken] = useState("");
   const [showMenu, setShowMenu] = useState(false);
-  const [currentMeal, setCurrentMeal] = useState("Don't Eat");
+  const now = new Date()
+  const [currentMeal, setCurrentMeal] = useState(getMealFromHour(now.getHours()));
 
   const  GetMenu = async ()=>{
     console.log("fetching original data")
@@ -53,7 +67,6 @@ const CartContextProvider = (props, cartInfo) => {
       let data = await response.json();
       // data = JSON.parse(data);
       setItem(data);
-      localStorage.setItem("userCart", JSON.stringify([...data]));
       console.log("cart info fetched",data);
     }else{
       console.log("Failed to fetch initial menu, please login")
@@ -62,21 +75,10 @@ const CartContextProvider = (props, cartInfo) => {
 
   useEffect(()=>{
     // setItem(cartInfo);
-    let date = new Date();
-    let hour = date.getHours();
-    if(hour < 10){
-      setCurrentMeal("Breakfast");
-    }else if(hour < 12){
-      setCurrentMeal("Brunch");
-    }else if(hour < 14){
-      setCurrentMeal("Lunch")
-    }else if(hour < 17){
-      setCurrentMeal("Afternoon Tea");
-    }else if(hour < 21){
-      setCurrentMeal("Dinner");
-    }else{
-      setCurrentMeal("Don't Eat")
-    }
+    const temp = new Date();
+    const mealName = getMealFromHour(temp.getHours());
+    setCurrentMeal(mealName);
+    GetMenu().then();
   },[])
 
   const toggleMenuHandler = ()=>{
@@ -122,11 +124,9 @@ const CartContextProvider = (props, cartInfo) => {
           }
         })
       } else {
-        localStorage.setItem("userCart", JSON.stringify([itemInput]))
         return [itemInput];
       }
       if (isNew) prevItem.push(itemInput);
-      localStorage.setItem("userCart", JSON.stringify([...prevItem]))
       return [...prevItem];
     });
   }
@@ -135,7 +135,6 @@ const CartContextProvider = (props, cartInfo) => {
     setItem((prevItem) => {
       prevItem = prevItem.filter((e) => e.fdc_id !== itemfdc_id);
       DeleteMenu(itemfdc_id);
-      localStorage.setItem("userCart", JSON.stringify([...prevItem]));
       return [...prevItem]
     });
   }
@@ -154,7 +153,7 @@ const CartContextProvider = (props, cartInfo) => {
         // prevItem = prevItem.filter(item => item.amount > 0);
       }
       if (!isPresent) console.log("Item don't exist.");
-      localStorage.setItem("userCart", JSON.stringify([...prevItem]));
+
       return [...prevItem];
     });
   }
@@ -168,7 +167,7 @@ const CartContextProvider = (props, cartInfo) => {
             item.amount = parseInt(amount);
           }
         })
-        localStorage.setItem("userCart", JSON.stringify([...prevItem]))
+
         return [...prevItem];
       }
     })
@@ -176,10 +175,6 @@ const CartContextProvider = (props, cartInfo) => {
 
   const setItemHandler = (items) => {
     setItem(items);
-    localStorage.setItem("userCart", JSON.stringify(item));
-  }
-  const setUserTokenHandler = (userTokenNew)=> {
-    setUserToken(userTokenNew);
   }
 
   return <CartContext.Provider value={{
@@ -192,8 +187,7 @@ const CartContextProvider = (props, cartInfo) => {
     removeItems: removeItemsHandler,
     decreaseItems: decreaseItemsHandler,
     setItems: setItemHandler,
-    changeItem: changeItemHandler,
-    setUserToken: setUserTokenHandler
+    changeItem: changeItemHandler
   }}>{props.children}</CartContext.Provider>
 }
 

@@ -25,16 +25,20 @@ const Menu = () => {
 
 
   const clickOpen = () => {
-    cartContext.toggleMenu();
+    if(!cartContext.showMenu) {
+      cartContext.toggleMenu();
+    }
   }
   // {showMenu ? styles.todayMenuToggleShow : styles.todayMenuToggle}
   const clickClose = () => {
-    cartContext.toggleMenu();
+    if(cartContext.showMenu) {
+      cartContext.toggleMenu();
+    }
   }
   const content = <motion.div initial={{opacity: 0, height: "100%"}} animate={{opacity: [1,0,1,0,1], height: "100%"}}
                               transition={{duration: 1}}>
-    <div className={showMenu ? styles.todayMenuToggleShow : styles.todayMenuToggle}>
-      <div className={styles.todayMenuToggleContainer} onClick={clickOpen}>
+    <div className={showMenu ? styles.todayMenuToggleShow : styles.todayMenuToggle} onClick={clickOpen}>
+      <div className={styles.todayMenuToggleContainer} onClick={clickClose}>
         <FontAwesomeIcon className={styles.todayMenuToggleBtn} icon="utensils" width="24px"/>
         <p>Meal</p>
       </div>

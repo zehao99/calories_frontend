@@ -70,7 +70,8 @@ const FullMenu = (props) => {
                                 decreaseItemHandler={decreaseItemHandler} deleteItemHandler={deleteItemHandler}/>
         })}
       </div>
-      <Button type="primary" className={styles.todayMenuSubmit}>Submit Meal</Button>
+      <div className={styles.todayMenuSubmit}> The meal will be saved after the meal period ends.</div>
+      {/*<Button type="primary" className={styles.todayMenuSubmit}>Submit Meal</Button>*/}
     </div>
   </motion.div>
 }

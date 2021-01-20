@@ -35,6 +35,7 @@ export default async (req, res) => {
   for(let key in params){
     formData.append(key.toString(), params[key]);
   }
+  console.log(params);
   // url.search = new URLSearchParams(params).toString();
   const response = await fetch(url.toString(), {
     method: "POST",

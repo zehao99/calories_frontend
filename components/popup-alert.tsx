@@ -3,6 +3,11 @@ import ReactDOM from "react-dom";
 import {Button} from "antd";
 import {motion} from "framer-motion";
 
+type PopupInfo = {
+  title: string,
+  message: string
+}
+
 const PopupAlert = (props) => {
   return (
     <React.Fragment>
@@ -66,7 +71,7 @@ const PopModal = WrappedComponent => {
     return (<WrappedComponent onClickHandler={props.onClose} message={props.message} title={props.title}/>);
   }
 
-  EnhancedComponent.show = params => {
+  EnhancedComponent.show = (params:PopupInfo) => {
     let container = document.createElement("div");
     document.body.appendChild(container);
 

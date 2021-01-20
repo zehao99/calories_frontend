@@ -20,7 +20,7 @@ const BACKEND_PORT = process.env.BACKEND_PORT;
 const {Option} = Select;
 
 const PieChart = dynamic(
-  () => import('../../components/pie-chart'),
+  () => import('../../components/Charts/PieChart'),
   {ssr: false}
 )
 type FoodDetailProps = {
