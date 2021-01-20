@@ -8,7 +8,7 @@ import {CartContext} from "./cart-context";
 export const AuthContext = React.createContext(
   {
     isAuth: false,
-    userInfo: {username: "NOT_LOGGED_IN", displayed_name: "NOT_LOGGED_IN", disabled: true, height: 0.0, weight: 0.0, age: 0, gender: "N/A"},
+    userInfo: {username: "NOT_LOGGED_IN", displayed_name: "NOT_LOGGED_IN", disabled: true, height: 0.0, weight: 0.0, age: 0, gender: "Male"},
     login: () => {
     },
     logout: () => {

@@ -59,15 +59,20 @@ const getMealsOnDate = (mealsOnDate: Array<MealsOnDate>, date: string): MealsOnD
   }
 }
 
+const dateToString = (date: Date) : string => {
+  const m = date.getMonth() + 1;
+  return date.getFullYear() + "-" + m.toString().padStart(2, '0') + "-" + date.getDate()
+}
+
 const MainContentCard = (props) => {
   const today = new Date();
   const meals: Array<MealsOnDate> = props.meals.meals_on_date;
   const [daysSelected, setDaysSelected] = useState(7);
   const [allNutritionInOneWeek, setAllNutritionInOneWeek] = useState({});
   const [tableColumns, setTableColumns] = useState([]);
-  const [dateToDisplay, setDateToDisplay] = useState(today.toISOString().slice(0, 10))
+  const [dateToDisplay, setDateToDisplay] = useState(dateToString(today));
   const [nutrientID, setNutrientID] = useState("1008");
-  const [mealsOnDate, setMealsOnDate] = useState(getMealsOnDate(meals, today.toISOString().slice(0,10)));
+  const [mealsOnDate, setMealsOnDate] = useState(getMealsOnDate(meals, dateToString(today)));
 
   const days: Array<Date> = meals.map((m) => {
     return new Date(m.date);
@@ -98,7 +103,8 @@ const MainContentCard = (props) => {
   }
 
   function onChange(value) {
-    setDateToDisplay(value.toISOString().slice(0, 10));
+    value = new Date(value.toString());
+    setDateToDisplay(dateToString(value));
   }
 
   return (

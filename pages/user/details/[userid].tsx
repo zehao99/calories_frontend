@@ -10,26 +10,26 @@ export default function InfoPage(props) {
   const [inputInfoEdit, setInputInfoEdit] = useState({
     height: {
       check: (val) => {return val < 250 && val > 90},
-      value: 0,
+      value: authContext.userInfo.height,
       alertMsg: "! Please Enter Height between 90 cm and 250 cm",
       showAlert: false,
     },
     weight: {
       check: (val) => {return val < 200 && val > 20},
-      value: 0,
+      value: authContext.userInfo.weight,
       alertMsg: "! Please Enter Weight between 20 kg amd 200 kg",
       showAlert: false,
     },
     age: {
       check: (val) => {return val >= 0 && val < 150},
-      value: 0,
+      value: authContext.userInfo.age,
       alertMsg: "! Please Enter Age between 0 amd 150",
       showAlert: false,
     },
 
     gender: {
       check: (val) => {return val === "Male" || val === "Female" || val === "Default"},
-      value: "Male",
+      value: authContext.userInfo.gender,
       alertMsg: null,
       showAlert: false,
     }

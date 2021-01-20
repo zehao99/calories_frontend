@@ -20,7 +20,6 @@ const UserSummaryCard = (props) => {
   const mm = String(time.getMonth() + 1).padStart(2, '0');
 
   const [totalEnergy, setTotalEnergy] = useState(calculateEnergyForOneDay(props.mostRecentDayMeal));
-  console.log(props.user.gender === "Male");
   const bmrApprox = calculateBMR(props.user.height, props.user.weight, props.user.age, props.user.gender);
 
   useEffect(() => {

@@ -58,7 +58,7 @@ const CartContextProvider = (props, cartInfo) => {
   const [currentMeal, setCurrentMeal] = useState(getMealFromHour(now.getHours()));
 
   const  GetMenu = async ()=>{
-    console.log("fetching original data")
+    // console.log("fetching original data")
     let url = "/api/this_meal";
     const response = await fetch(url,{method:"POST", body: JSON.stringify({
         currentMeal: currentMeal
@@ -67,9 +67,9 @@ const CartContextProvider = (props, cartInfo) => {
       let data = await response.json();
       // data = JSON.parse(data);
       setItem(data);
-      console.log("cart info fetched",data);
+      // console.log("cart info fetched",data);
     }else{
-      console.log("Failed to fetch initial menu, please login")
+      // console.log("Failed to fetch initial menu, please login")
     }
   }
 
@@ -88,7 +88,7 @@ const CartContextProvider = (props, cartInfo) => {
 
   const  SubmitMenu = async (fdc_id, amount)=>{
 
-    console.log("Request Adding", fdc_id, amount);
+    // console.log("Request Adding", fdc_id, amount);
     const response = await fetch(`/api/add_meal`,{method:"POST", body: JSON.stringify({
         currentMeal: currentMeal,
         fdc_id: fdc_id,
@@ -100,7 +100,7 @@ const CartContextProvider = (props, cartInfo) => {
   }
 
   const  DeleteMenu = async (fdc_id)=>{
-    console.log("Request Deleting");
+    // console.log("Request Deleting");
     const response = await fetch(`/api/delete_meal`,{method:"POST", body: JSON.stringify({
         currentMeal: currentMeal,
         fdc_id: fdc_id
@@ -118,7 +118,7 @@ const CartContextProvider = (props, cartInfo) => {
         prevItem.map(item => {
           if (item.fdc_id === itemInput.fdc_id) {
             item.amount += itemInput.amount;
-            console.log(itemInput);
+            // console.log(itemInput);
             SubmitMenu(item.fdc_id,item.amount);
             isNew = false;
           }
@@ -152,7 +152,7 @@ const CartContextProvider = (props, cartInfo) => {
         })
         // prevItem = prevItem.filter(item => item.amount > 0);
       }
-      if (!isPresent) console.log("Item don't exist.");
+      // if (!isPresent) console.log("Item don't exist.");
 
       return [...prevItem];
     });
