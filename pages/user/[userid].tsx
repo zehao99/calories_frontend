@@ -30,7 +30,7 @@ export default function UserPage(userDetail: UserDetail) {
       <UserSummaryCard user={authContext.userInfo} mostRecentDay={mostRecentDay} mostRecentDayMeal={mealsOfMostRecentDay}/>
     </div>
     <div className={styles.mainUserContentContainer}>
-      <MainContentCard meals={userDetail}/>
+       <MainContentCard meals={userDetail}/>
     </div>
   </div>)
 }
@@ -44,7 +44,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   });
   if (!response.ok){
-    ctx.res.writeHead(302, { Location: '/' });
+    ctx.res.writeHead(302, { Location: '/user/error' });
     ctx.res.end();
   }
   const userDetail = await response.json();

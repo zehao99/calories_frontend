@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./MealsonDateCard.module.scss";
+import styles from "./MealsOnDateCard.module.scss";
 import {MealOnID} from "../../types/userDetail";
 import {ParseIDToMeal} from "../../utils/parseMeal";
 import {capitalizeFirstLetter} from "../../utils/stringOperation";

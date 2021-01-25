@@ -120,7 +120,7 @@ const LoginForm = (props) => {
     } else {
       PopupAlert.show({
         title: "Alert",
-        message: "User do not exist."
+        message: "Username or password error."
       })
       setIsLoading(false);
     }
@@ -150,7 +150,7 @@ const LoginForm = (props) => {
       setIsLoading(false);
       PopupAlert.show({
         title: "Thank you for joining us",
-        message: "Please log in. Today's menu is on the right-bottom side of the page."
+        message: "Please log in and record your body information. Today's menu is on the right-bottom side of the page."
       })
     } else {
       PopupAlert.show({
