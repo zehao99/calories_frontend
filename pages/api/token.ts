@@ -18,10 +18,9 @@ export default async (req, res) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
     const data = await response.json()
-    console.log(data);
     res.end(JSON.stringify(data));
   } else {
-    res.statusCode = 404;
+    res.statusCode = 401;
     res.end();
   }
 }

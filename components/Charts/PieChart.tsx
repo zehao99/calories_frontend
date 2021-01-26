@@ -9,7 +9,7 @@ type PieChartProps = {
 export default function PieChart(props: PieChartProps) {
   const {protein, carb, fat} = props
   const sum = 4 * protein + 4 * carb + 9 * fat
-  if (sum ===0)
+  if (sum === 0)
     return <></>
   const data = [
     {value: 4 * protein / sum, name: 'Protein'},

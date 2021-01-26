@@ -1,5 +1,5 @@
 * {
-    block-size: border-box;
+  block-size: border-box;
 }
 
 .ant-menu-horizontal {
@@ -18,8 +18,8 @@
   background: none !important;
 }
 
-.ant-menu-vertical{
-  background: rgba(255,255,255,0.9) !important;
+.ant-menu-vertical {
+  background: rgba(255, 255, 255, 0.9) !important;
 }
 
 .ant-input {

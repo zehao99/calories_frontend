@@ -119,8 +119,8 @@ const LoginForm = (props) => {
       // location.reload();
     } else {
       PopupAlert.show({
-        title: "Alert",
-        message: "Username or password error."
+        title: "Error",
+        message: "Incorrect username or password."
       })
       setIsLoading(false);
     }

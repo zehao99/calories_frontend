@@ -3,15 +3,17 @@ import React, {useEffect, useState} from "react";
 export const LogInContext = React.createContext(
   {
     isShown: false,
-    show:() => {},
-    close: ()=>{},
+    show: () => {
+    },
+    close: () => {
+    },
   }
 )
 
 const LogInContextProvider = (props) => {
   const [isShown, setIsShown] = useState(false);
 
-  const showLoginHandler = () =>{
+  const showLoginHandler = () => {
     setIsShown(true);
     console.log(isShown);
   }

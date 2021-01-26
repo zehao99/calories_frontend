@@ -23,7 +23,7 @@ export type FoodDetail = {
   ingredients: string,
   serving_size: number,
   serving_size_unit: string,
-  serving_description:string,
+  serving_description: string,
   nutrition: Array<Nutrition>
 }
 export type SearchResponse = Array<Food>

@@ -7,13 +7,14 @@ type SearchBarProps = {
   value: string
 }
 const search = (keyword) => {
-  if (keyword==="")
+  if (keyword === "")
     return
   Router.push({
     pathname: '/search',
     query: {q: keyword},
   })
 }
+
 function SearchBar({value}: SearchBarProps) {
   return <Search
     defaultValue={value}

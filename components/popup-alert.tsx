@@ -71,7 +71,7 @@ const PopModal = WrappedComponent => {
     return (<WrappedComponent onClickHandler={props.onClose} message={props.message} title={props.title}/>);
   }
 
-  EnhancedComponent.show = (params:PopupInfo) => {
+  EnhancedComponent.show = (params: PopupInfo) => {
     let container = document.createElement("div");
     document.body.appendChild(container);
 

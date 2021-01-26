@@ -14,8 +14,8 @@ config.autoAddCss = false;
 library.add(fas);
 export default function MyApp({Component, pageProps}) {
   return <CartContextProvider><AuthContextProvider><LogInContextProvider><AnimatePresence exitBeforeEnter>
-    <Head  key={"head"}>
-      <title>Calories Search</title>
+    <Head>
+      <title>Calories Tracker</title>
     </Head>
     <div className="container">
       <div className="navbar-bg">

@@ -14,19 +14,19 @@ const Navbar = () => {
   const logInContext = useContext(LogInContext);
   const cartContext = useContext(CartContext);
   let [content, setContent] = useState(null);
-  useEffect(()=>{
+  useEffect(() => {
     if (logInContext.isShown) {
       setContent(<LoginForm onClose={logInContext.close}/>);
-    }else{
+    } else {
       setContent(null);
     }
-  },[...Object.values(logInContext)]);
+  }, [...Object.values(logInContext)]);
 
   const loginHandler = () => {
-    if(!authContext.isAuth){
+    if (!authContext.isAuth) {
       console.log(logInContext);
       logInContext.show();
-    }else {
+    } else {
       authContext.logout();
     }
   }
@@ -39,9 +39,11 @@ const Navbar = () => {
     </div>
   </Menu.Item>
 
-  const user = <SubMenu icon={<FontAwesomeIcon icon="user" width="14" height="14" style={{marginRight:"0.5rem"}}/>} title="User">
-    <Menu.Item key="user:1"><Link as={ `/user/tracker`} href={ "/user/[userid]"}>My Page</Link></Menu.Item>
-    <Menu.Item key="user:3"><Link as={ `/user/details/infoPage`} href={ "/user/details/[userid]"}>Edit Info</Link></Menu.Item>
+  const user = <SubMenu icon={<FontAwesomeIcon icon="user" width="14" height="14" style={{marginRight: "0.5rem"}}/>}
+                        title="Menu">
+    <Menu.Item key="user:1"><Link as={`/user/tracker`} href={"/user/[userid]"}>My Page</Link></Menu.Item>
+    <Menu.Item key="user:3"><Link as={`/user/details/infoPage`} href={"/user/details/[userid]"}>Edit
+      Info</Link></Menu.Item>
     <Menu.Item key="user:2" onClick={loginHandler}>LogOut</Menu.Item>
   </SubMenu>
 
@@ -75,7 +77,7 @@ const Navbar = () => {
               height: 5px;
               width: auto;
             }
-            
+
           }
         `}
         </style>

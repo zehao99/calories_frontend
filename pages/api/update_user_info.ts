@@ -1,10 +1,9 @@
-
 const BACKEND_HOST = process.env.BACKEND_HOST;
 const BACKEND_PORT = process.env.BACKEND_PORT;
 
 export default async (req, res) => {
   const formData = new URLSearchParams();
-  for(let key in req.body){
+  for (let key in req.body) {
     formData.append(key.toString(), req.body[key]);
   }
   let url = new URL(`http://${BACKEND_HOST}:${BACKEND_PORT}/user/update_info`)
@@ -24,7 +23,7 @@ export default async (req, res) => {
     res.end(JSON.stringify(data));
   } else {
     console.log(response);
-    res.statusCode = 404;
+    res.statusCode = 401;
     res.end();
   }
 }

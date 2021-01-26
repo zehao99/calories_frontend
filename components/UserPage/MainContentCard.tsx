@@ -1,16 +1,13 @@
 import React, {useEffect, useState} from "react";
 import styles from "./MainContentCard.module.scss";
-import {MealOnID, MealsOnDate} from "../../types/userDetail";
-import {
-  calculateAllNutritionsInLastWeek,
-  calculateAllNutritionsInLastNDays,
-  calculateSumForOneDay,
-  padDays
-} from "../../utils/calculations";
-import {nutritionNameMap, nutrientUnitMap} from "../../utils/translateNutrient";
-import {Table, TreeSelect, Calendar} from "antd";
+import {MealsOnDate} from "../../types/userDetail";
+import {calculateAllNutritionsInLastNDays, calculateSumForOneDay, padDays} from "../../utils/calculations";
+import {nutrientUnitMap, nutritionNameMap} from "../../utils/translateNutrient";
+import {Calendar, Table, TreeSelect} from "antd";
 import MealsOnDateCard from "./MealsOnDateCard";
 import dynamic from "next/dynamic";
+import {motion} from "framer-motion";
+
 const LineChart = dynamic(
   () => import('../../components/Charts/LineChart'),
   {ssr: false}
@@ -51,7 +48,7 @@ const columns = [
 
 const getMealsOnDate = (mealsOnDate: Array<MealsOnDate>, date: string): MealsOnDate => {
   const newArr = mealsOnDate.filter((meals) => meals.date === date);
-  if(newArr.length === 0) {
+  if (newArr.length === 0) {
     const blankMealsOnDate = {date: date, meals_on_id: null};
     return blankMealsOnDate;
   } else {
@@ -59,7 +56,7 @@ const getMealsOnDate = (mealsOnDate: Array<MealsOnDate>, date: string): MealsOnD
   }
 }
 
-const dateToString = (date: Date) : string => {
+const dateToString = (date: Date): string => {
   const m = date.getMonth() + 1;
   return date.getFullYear() + "-" + m.toString().padStart(2, '0') + "-" + date.getDate()
 }
@@ -108,10 +105,11 @@ const MainContentCard = (props) => {
   }
 
   return (
-    <div>
+    <motion.div initial={{opacity: 0, y: 100, width: "100%"}} animate={{opacity: 1, y: 0, width: "100%"}}
+                exit={{opacity: 0, y: 0, width: "100%"}}>
       <div className={styles.calendarViewOfFood}>
         <div className={styles.calendarArea}>
-          <Calendar fullscreen={false} onSelect={onChange} />
+          <Calendar fullscreen={false} onSelect={onChange}/>
         </div>
         <div className={styles.dailyFood}>
           <MealsOnDateCard data={mealsOnDate}/>
@@ -160,7 +158,7 @@ const MainContentCard = (props) => {
                  className="user-nutrient-tracker-table"/>
         </div>
       </div>
-    </div>);
+    </motion.div>);
 }
 
 export default MainContentCard;

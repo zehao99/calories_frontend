@@ -1,16 +1,16 @@
 export type FoodNutrient = {
-  [key: string] : number,
+  [key: string]: number,
 }
 
 export type FoodBio = {
   fdc_id: number,
   description: string,
-  amount:number,
+  amount: number,
   nutrient: Array<FoodNutrient>,
 }
 
 export type MealOnID = {
-  meal_id : number,
+  meal_id: number,
   meals: Array<FoodBio>
 }
 
@@ -20,8 +20,8 @@ export type MealsOnDate = {
 }
 
 export type UserDetail = {
-  user_id : number,
-  meals_on_date : Array<MealsOnDate>
+  user_id: number,
+  meals_on_date: Array<MealsOnDate>
 }
 
 

@@ -7,7 +7,7 @@
   border-radius: 10px;
   text-align: center;
   background: white;
-  left:calc(100vw - 100px);
+  left: calc(100vw - 100px);
   top: calc(100vh - 100px);
   transition: all 0.5s ease-in-out;
   overflow: hidden;
@@ -19,10 +19,12 @@
     margin-bottom: 0;
     margin-left: 0.6rem;
   }
-  @media(min-width: 600px){
-    &:hover{
+
+  @media(min-width: 600px) {
+    &:hover {
       width: 120px;
       transform: translateX(-80px);
+
       p {
         display: inline;
         opacity: 1;
@@ -30,12 +32,12 @@
     }
   }
   @media(max-width: 600px) {
-    left:calc(100vw - 3rem);
+    left: calc(100vw - 3rem);
     top: calc(100vh - 12rem);
   }
 }
 
-.todayMenuToggleShow{
+.todayMenuToggleShow {
   position: fixed;
   width: 120px;
   height: 40px;
@@ -43,7 +45,7 @@
   border-radius: 10px;
   text-align: center;
   background: rgb(207, 219, 211);
-  left:calc(100vw - 100px);
+  left: calc(100vw - 100px);
   top: calc(100vh - 100px);
   transform: translateX(-80px);
   transition: all 0.3s ease-in-out;
@@ -60,7 +62,7 @@
   @media(max-width: 600px) {
     transform: translateX(0);
     width: 40px;
-    left:calc(100vw - 3rem);
+    left: calc(100vw - 3rem);
     top: calc(100vh - 12rem);
 
     p {
@@ -80,7 +82,7 @@
   //justify-content: center;
 }
 
-.todayMenuToggleBtn{
+.todayMenuToggleBtn {
 
   display: inline;
 

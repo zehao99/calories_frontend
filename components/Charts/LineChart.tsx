@@ -1,7 +1,7 @@
 import React from "react";
 import ReactEcharts from "echarts-for-react";
 
-export default function LineChart (props) {
+export default function LineChart(props) {
   const option = {
 
     grid: {

@@ -44,7 +44,7 @@
   flex: 1;
 }
 
-.portionTags{
+.portionTags {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 1rem;
@@ -112,8 +112,7 @@
                     'food-detail-pie'
                     'food-detail-gtin'
                     'food-inputs'
-                    'food-detail-ingredients'
-                    ;
+                    'food-detail-ingredients';
     padding: 0rem;
   }
 

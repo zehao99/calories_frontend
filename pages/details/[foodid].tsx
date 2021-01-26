@@ -42,46 +42,47 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
   const cartContext = useContext(CartContext);
   const logInContext = useContext(LogInContext);
   if (Object.keys(foodDetail).length === 0 && foodDetail.constructor === Object)
-    return  <ErrorPage statusCode={404}/>
+    return <ErrorPage statusCode={404}/>
 
 
   function formatter(value) {
-    if (typeof value  === "string"){
-      value = value.replace(/[^\d]/g,'')
+    if (typeof value === "string") {
+      value = value.replace(/[^\d]/g, '')
       return `${value} g`;
     }
   }
 
   let ingredientsInfo = foodDetail.ingredients;
-  if(ingredientsInfo === null){
+  if (ingredientsInfo === null) {
     ingredientsInfo = "";
   }
 
   const wordCount = (ingredientsInfo) => {
     const wordArray = ingredientsInfo.toLowerCase().split(" ");
-    return wordArray.length;
+    return wordArray ? wordArray.length : 0;
   }
 
-  const [foodIngredients, setFoodIngredients] = useState(ingredientsInfo.toLowerCase().replace(/^((?:\S+\s+){20}\S+).*/, "$1") + '...' )
+  const [foodIngredients, setFoodIngredients] = useState(ingredientsInfo.toLowerCase().replace(/^((?:\S+\s+){20}\S+).*/, "$1") + '...')
 
   const [isShowMore, setIsShowMore] = useState(false);
 
 
-  useEffect(() =>{
+  useEffect(() => {
     console.log(isShowMore);
-    if(isShowMore || wordCount(ingredientsInfo)<20){
+    if (isShowMore || wordCount(ingredientsInfo) < 20) {
       setFoodIngredients(ingredientsInfo.toLowerCase());
-    }else{
+    } else {
       setFoodIngredients(ingredientsInfo.toLowerCase().replace(/^((?:\S+\s+){20}\S+).*/, "$1") + '...');
-    }}, [isShowMore]);
+    }
+  }, [isShowMore]);
 
   const toggleMoreTextHandle = () => {
     setIsShowMore(!isShowMore);
   }
 
   function parser(value) {
-    if (typeof value  === "string"){
-      value = value.replace(/[^\d]/g,'')
+    if (typeof value === "string") {
+      value = value.replace(/[^\d]/g, '')
       return value.replace(' g', '')
     }
   }
@@ -148,37 +149,39 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
     }]
 
   let showMoreText = "";
-  if(wordCount(ingredientsInfo)>20){
-    showMoreText = isShowMore ? "Show Less": "Show More";
+  if (wordCount(ingredientsInfo) > 20) {
+    showMoreText = isShowMore ? "Show Less" : "Show More";
   }
 
   const PortionClickHandler = (props) => {
     setPortion(props.amount);
   }
 
-  const  SubmitMenu = async (fdc_id, portion)=>{
+  const SubmitMenu = async (fdc_id, portion) => {
     console.log("Request Adding", fdc_id, portion);
-    const response = await fetch(`/api/add_meal`,{method:"POST", body: JSON.stringify({
+    const response = await fetch(`/api/add_meal`, {
+      method: "POST", body: JSON.stringify({
         currentMeal: cartContext.currentMeal,
         fdc_id: fdc_id,
         amount: portion,
-      })})
-    if (response.ok){
+      })
+    })
+    if (response.ok) {
       const data = await response.json()
     }
   }
 
-  const addMenuItemHandler = () =>{
+  const addMenuItemHandler = () => {
     //Current testing
-    if(!authContext.isAuth){
+    if (!authContext.isAuth) {
       logInContext.show();
-    }else{
+    } else {
       console.log(foodDetail);
       let energyPerHundredGram = 0;
       let energyUnit = "KCAL";
-      if(foodDetail.nutrition != null){
+      if (foodDetail.nutrition != null) {
         foodDetail.nutrition.map(item => {
-          if(item.metric_name =="Energy"){
+          if (item.metric_name == "Energy") {
             energyPerHundredGram = item.amount;
             energyUnit = item.unit_name;
           }
@@ -196,7 +199,7 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
       console.log(item);
       PopupAlert.show({
         title: "Added Item",
-        message: foodDetail.name+ " " + portion + 'g'
+        message: foodDetail.name + " " + portion + 'g'
       });
     }
   }
@@ -217,7 +220,7 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
           </h2>
 
           <h3 className={styles.foodDetailIngredients} style={{padding: "0.5rem 1.3rem"}}>
-            <strong>Ingredients:</strong> {foodDetail.ingredients !== null ? foodIngredients  + ' ' : "UNKNOWN" + ' '}
+            <strong>Ingredients:</strong> {foodDetail.ingredients !== null ? foodIngredients + ' ' : "UNKNOWN" + ' '}
             <a onClick={toggleMoreTextHandle}>{showMoreText} </a>
           </h3>
           <div className={styles.foodDetailGtin} style={{padding: "0.5rem 1rem"}}>
@@ -227,45 +230,46 @@ export default function FoodDetailPage(foodDetail: FoodDetail) {
             <PieChart protein={protein} carb={carb} fat={fat}/>
           </div>
           <div className={styles.portionInput}>
-          <div className={styles.sliderContainer}>
-          <div className={styles.slider}>
-            <Slider
-              min={0}
-              max={1000}
-              defaultValue={100}
-              range={false}
-              // @ts-ignore
-              onChange={(v) => setPortion(v)}
-              // @ts-ignore
-              onAfterChange={(v) => setPortion(v)}
-              value={typeof portion === 'number' ? portion : 0}
-              step={1}
-            />
-          </div>
-          <div className={styles.input}>
-            <InputNumber
-              min={0}
-              max={1000}
-              style={{margin: '0 16px'}}
-              step={1}
-              defaultValue={100}
-              value={portion}
-              formatter={formatter}
-              parser={parser}
-              onChange={(v) => {
+            <div className={styles.sliderContainer}>
+              <div className={styles.slider}>
+                <Slider
+                  min={0}
+                  max={1000}
+                  defaultValue={100}
+                  range={false}
+                  // @ts-ignore
+                  onChange={(v) => setPortion(v)}
+                  // @ts-ignore
+                  onAfterChange={(v) => setPortion(v)}
+                  value={typeof portion === 'number' ? portion : 0}
+                  step={1}
+                />
+              </div>
+              <div className={styles.input}>
+                <InputNumber
+                  min={0}
+                  max={1000}
+                  style={{margin: '0 16px'}}
+                  step={1}
+                  defaultValue={100}
+                  value={portion}
+                  formatter={formatter}
+                  parser={parser}
+                  onChange={(v) => {
 
-                // @ts-ignore
-                setPortion(v);
-              }}
-            />
-          </div>
-          </div>
-          <div className={styles.portionTags}>
-            {allPortions.map((e)=>{
-              return <PortionTag key={e.description} amount = {e.amount} unit = {e.unit} description = {e.description} onClickHandler = {PortionClickHandler}/>
-            })}
-            <Button type = "primary" onClick={addMenuItemHandler}>Add to Meal</Button>
-          </div>
+                    // @ts-ignore
+                    setPortion(v);
+                  }}
+                />
+              </div>
+            </div>
+            <div className={styles.portionTags}>
+              {allPortions.map((e) => {
+                return <PortionTag key={e.description} amount={e.amount} unit={e.unit} description={e.description}
+                                   onClickHandler={PortionClickHandler}/>
+              })}
+              <Button type="primary" onClick={addMenuItemHandler}>Add to Meal</Button>
+            </div>
           </div>
 
         </div>

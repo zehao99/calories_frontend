@@ -22,8 +22,10 @@ export const CartContext = React.createContext({
   // 6 : don't eat
   currentMeal: "",
   showMenu: false,
-  getItems: ()=>{},
-  toggleMenu: ()=>{},
+  getItems: () => {
+  },
+  toggleMenu: () => {
+  },
   addItems: (item) => {
   },
   removeItems: (itemFcdId) => {
@@ -32,21 +34,22 @@ export const CartContext = React.createContext({
   },
   setItems: (items) => {
   },
-  changeItem: (amount ,itemfdc_id) => {},
+  changeItem: (amount, itemfdc_id) => {
+  },
 });
 
 const getMealFromHour = (hour) => {
-  if(hour < 10){
+  if (hour < 10) {
     return "Breakfast";
-  }else if(hour < 12){
+  } else if (hour < 12) {
     return "Brunch";
-  }else if(hour < 14){
+  } else if (hour < 14) {
     return "Lunch";
-  }else if(hour < 17){
+  } else if (hour < 17) {
     return "Afternoon Tea";
-  }else if(hour < 21){
+  } else if (hour < 21) {
     return "Dinner";
-  }else{
+  } else {
     return "Don't Eat";
   }
 }
@@ -57,55 +60,61 @@ const CartContextProvider = (props, cartInfo) => {
   const now = new Date()
   const [currentMeal, setCurrentMeal] = useState(getMealFromHour(now.getHours()));
 
-  const  GetMenu = async ()=>{
+  const GetMenu = async () => {
     // console.log("fetching original data")
     let url = "/api/this_meal";
-    const response = await fetch(url,{method:"POST", body: JSON.stringify({
+    const response = await fetch(url, {
+      method: "POST", body: JSON.stringify({
         currentMeal: currentMeal
-      })})
-    if (response.ok){
+      })
+    })
+    if (response.ok) {
       let data = await response.json();
       // data = JSON.parse(data);
       setItem(data);
       // console.log("cart info fetched",data);
-    }else{
+    } else {
       // console.log("Failed to fetch initial menu, please login")
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     // setItem(cartInfo);
     const temp = new Date();
     const mealName = getMealFromHour(temp.getHours());
     setCurrentMeal(mealName);
     GetMenu().then();
-  },[])
+  }, [])
 
-  const toggleMenuHandler = ()=>{
+  const toggleMenuHandler = () => {
     GetMenu();
     setShowMenu(!showMenu);
   }
 
-  const  SubmitMenu = async (fdc_id, amount)=>{
+  const SubmitMenu = async (fdc_id, amount) => {
 
     // console.log("Request Adding", fdc_id, amount);
-    const response = await fetch(`/api/add_meal`,{method:"POST", body: JSON.stringify({
+    const response = await fetch(`/api/add_meal`, {
+      method: "POST", body: JSON.stringify({
         currentMeal: currentMeal,
         fdc_id: fdc_id,
         amount: amount
-      })})
-    if (response.ok){
+      })
+    })
+    if (response.ok) {
       const data = await response.json()
     }
   }
 
-  const  DeleteMenu = async (fdc_id)=>{
+  const DeleteMenu = async (fdc_id) => {
     // console.log("Request Deleting");
-    const response = await fetch(`/api/delete_meal`,{method:"POST", body: JSON.stringify({
+    const response = await fetch(`/api/delete_meal`, {
+      method: "POST", body: JSON.stringify({
         currentMeal: currentMeal,
         fdc_id: fdc_id
-      })})
-    if (response.ok){
+      })
+    })
+    if (response.ok) {
       const data = await response.json()
     }
   }
@@ -119,7 +128,7 @@ const CartContextProvider = (props, cartInfo) => {
           if (item.fdc_id === itemInput.fdc_id) {
             item.amount += itemInput.amount;
             // console.log(itemInput);
-            SubmitMenu(item.fdc_id,item.amount);
+            SubmitMenu(item.fdc_id, item.amount);
             isNew = false;
           }
         })
@@ -146,7 +155,7 @@ const CartContextProvider = (props, cartInfo) => {
         prevItem.map(item => {
           if (item.fdc_id === itemfdc_id) {
             item.amount -= amount;
-            SubmitMenu(item.fdc_id,item.amount);
+            SubmitMenu(item.fdc_id, item.amount);
             isPresent = true;
           }
         })
@@ -158,10 +167,10 @@ const CartContextProvider = (props, cartInfo) => {
     });
   }
 
-  const changeItemHandler = (amount ,itemfdc_id) => {
+  const changeItemHandler = (amount, itemfdc_id) => {
     setItem(prevItem => {
       if (prevItem !== null) {
-        SubmitMenu(itemfdc_id,amount);
+        SubmitMenu(itemfdc_id, amount);
         prevItem.map(item => {
           if (item.fdc_id === itemfdc_id) {
             item.amount = parseInt(amount);

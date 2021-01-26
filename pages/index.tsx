@@ -10,7 +10,6 @@ const {Search} = Input;
 export default function Home({data}) {
   useEffect(() => {
     //
-    console.log("V081002:Adding user page")
     const WINDOW_SIZE = window.innerHeight;
     const div = document.getElementsByClassName('container')[0];
     div.setAttribute('style', `height:${WINDOW_SIZE}px`);
@@ -24,7 +23,7 @@ export default function Home({data}) {
                   exit={{opacity: 0, y: 0, width: "100%"}}>
         <div className={styles.searcharea}>
 
-          <h1 id= "1" >Burn Your Fat Off!</h1>
+          <h1 id="1">Burn Your Fat Off!</h1>
           <SearchBar value={""}/>
         </div>
       </motion.div>

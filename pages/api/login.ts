@@ -9,10 +9,10 @@ const BACKEND_PORT = process.env.BACKEND_PORT;
 
 export default async (req, res) => {
   const formData = new URLSearchParams();
-  for(let key in req.body){
+  for (let key in req.body) {
     formData.append(key.toString(), req.body[key]);
   }
-  const response = await fetch(`http://${BACKEND_HOST}:${BACKEND_PORT}/login`,{
+  const response = await fetch(`http://${BACKEND_HOST}:${BACKEND_PORT}/login`, {
     method: "POST",
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
@@ -26,7 +26,7 @@ export default async (req, res) => {
     const data = await response.json();
     res.end(JSON.stringify(data));
   } else {
-    res.statusCode = 404;
+    res.statusCode = 401;
     res.end();
   }
 }

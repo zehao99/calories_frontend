@@ -34,10 +34,10 @@ const food_card = (prop) => {
 }
 
 export default function FoodCard(food: Food) {
-  if(food.fdc_id === "0"){
+  if (food.fdc_id === "0") {
     return <a className="foodcard-link" style={{height: "100%"}}>{food_card(food)}</a>
-  }else{
-    return <Link as={ `/details/${food.fdc_id}`} href={ "/details/[foodid]"}>
+  } else {
+    return <Link as={`/details/${food.fdc_id}`} href={"/details/[foodid]"}>
       <a className="foodcard-link" style={{height: "100%"}}>{food_card(food)}</a>
     </Link>
   }

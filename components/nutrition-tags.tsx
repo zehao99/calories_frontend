@@ -28,7 +28,7 @@ export default function NutritionTags(props: NutritionTagsProps) {
         break;
     }
   })
-  return<div className = "grid-container">
+  return <div className="grid-container">
 
     <Tag color="#3E3A31" className="nutrition-tag">{nutrition_brief.energy}</Tag>
     <Tag color="#D9AE79" className="nutrition-tag">{nutrition_brief.fat}</Tag>
@@ -36,11 +36,12 @@ export default function NutritionTags(props: NutritionTagsProps) {
     <Tag color="#4C5451" className="nutrition-tag">{nutrition_brief.carb}</Tag>
     { /*language=CSS*/}
     <style jsx>{`
-      .grid-container{
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-gap: 0.5rem 0.5rem;
+      .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 0.5rem 0.5rem;
       }
+
       .nutrition-tag {
         font-size: 0.85rem;
       }

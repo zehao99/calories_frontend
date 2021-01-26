@@ -9,7 +9,7 @@ type PieChartGeneralProps = {
 export default function PieChartGeneral(props: PieChartGeneralProps) {
   let {names, values} = props
   const data = names.map((e, idx) => {
-    return{value: values[idx], name:e};
+    return {value: values[idx], name: e};
   })
   console.log(names, values);
   const option = {

@@ -1,13 +1,12 @@
-
 const BACKEND_HOST = process.env.BACKEND_HOST;
 const BACKEND_PORT = process.env.BACKEND_PORT;
 
 export default async (req, res) => {
   const formData = new URLSearchParams();
-  for(let key in req.body){
+  for (let key in req.body) {
     formData.append(key.toString(), req.body[key]);
   }
-  const response = await fetch(`http://${BACKEND_HOST}:${BACKEND_PORT}/signup`,{
+  const response = await fetch(`http://${BACKEND_HOST}:${BACKEND_PORT}/signup`, {
     method: "POST",
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'

@@ -13,11 +13,13 @@ const Menu = () => {
   const [isAuth, setIsAuth] = useState(authContext.isAuth);
 
   useEffect(() => {
-    if(cartContext.showMenu === false){
-      setTimeout(()=>{setShowMenu(cartContext.showMenu)},300);
-    }else{
+    if (cartContext.showMenu === false) {
+      setTimeout(() => {
+        setShowMenu(cartContext.showMenu)
+      }, 300);
+    } else {
       setShowMenu(cartContext.showMenu)
-  }
+    }
   }, [cartContext.showMenu]);
   useEffect(() => {
     setIsAuth(authContext.isAuth)
@@ -25,17 +27,18 @@ const Menu = () => {
 
 
   const clickOpen = () => {
-    if(!cartContext.showMenu) {
+    if (!cartContext.showMenu) {
       cartContext.toggleMenu();
     }
   }
   // {showMenu ? styles.todayMenuToggleShow : styles.todayMenuToggle}
   const clickClose = () => {
-    if(cartContext.showMenu) {
+    if (cartContext.showMenu) {
       cartContext.toggleMenu();
     }
   }
-  const content = <motion.div initial={{opacity: 0, height: "100%"}} animate={{opacity: [1,0,1,0,1], height: "100%"}}
+  const content = <motion.div initial={{opacity: 0, height: "100%"}}
+                              animate={{opacity: [1, 0, 1, 0, 1], height: "100%"}}
                               transition={{duration: 1}}>
     <div className={showMenu ? styles.todayMenuToggleShow : styles.todayMenuToggle} onClick={clickOpen}>
       <div className={styles.todayMenuToggleContainer} onClick={clickClose}>

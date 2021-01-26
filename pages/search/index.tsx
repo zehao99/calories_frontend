@@ -66,7 +66,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         if (response.ok)
           return response.json();
         else return {
-          total:1,
+          total: 1,
           food: [{
             fdc_id: "0",
             name: "Nothing Found",
