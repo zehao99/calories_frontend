@@ -21,7 +21,7 @@ export default function UserPage(userDetail: UserDetail) {
   const mostRecentDay = !meals || meals.length === 0 ? new Date().toISOString().slice(0, 10) : days[days.length - 1];
 
   useEffect( () => {
-    authContext.getUserInfo();
+    // authContext.getUserInfo();
   });
 
   return (<div className={styles.userInfoContainer}>

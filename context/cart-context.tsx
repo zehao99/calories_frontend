@@ -4,6 +4,16 @@ const BACKEND_HOST = process.env.BACKEND_HOST;
 
 const BACKEND_PORT = process.env.BACKEND_PORT;
 
+type CartItem = {
+  fdc_id: number | string,
+  name: string,
+  amount: number | string,
+  energyPer100g: number | string,
+  energyUnit: string
+}
+
+// Controls cart items for the meal
+
 export const CartContext = React.createContext({
 // item structure {
 //   fdc_id : xxxxxx;

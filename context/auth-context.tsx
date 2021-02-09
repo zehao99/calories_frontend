@@ -5,6 +5,8 @@ import Cookie from "js-cookie";
 import {parseCookies} from "../utils/parseCookies"
 import {CartContext} from "./cart-context";
 
+// Control the authorization state of the application
+
 export const AuthContext = React.createContext(
   {
     isAuth: false,
@@ -52,12 +54,12 @@ const AuthContextProvider = (props) => {
         return response.json()
       }).then((data) => {
       setUserInfo(data);
-      console.log(data);
+      // console.log(data);
     }).catch((error) => {
       setIsAuthenticated(false);
     });
   }
-  // useEffect(()=> {Cookie.set("userInfo", userInfo)},[userInfo])
+
   useEffect(() => {
       const userCart = localStorage.getItem("userCart");
       cartContext.setItems(JSON.parse(userCart));

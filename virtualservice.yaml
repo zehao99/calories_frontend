@@ -11,7 +11,7 @@ spec:
     - name: "frontend-v5-route"
       match:
         - uri:
-            prefix: /details
+            prefix: /dev
       route:
         - destination:
             host: frontend-service

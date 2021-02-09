@@ -58,7 +58,8 @@ const getMealsOnDate = (mealsOnDate: Array<MealsOnDate>, date: string): MealsOnD
 
 const dateToString = (date: Date): string => {
   const m = date.getMonth() + 1;
-  return date.getFullYear() + "-" + m.toString().padStart(2, '0') + "-" + date.getDate()
+  const d = date.getDate();
+  return date.getFullYear() + "-" + m.toString().padStart(2, '0') + "-" + d.toString().padStart(2,'0');
 }
 
 const MainContentCard = (props) => {

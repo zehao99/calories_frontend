@@ -32,5 +32,4 @@ export default function MyApp({Component, pageProps}) {
   </LogInContextProvider>
   </AuthContextProvider>
   </CartContextProvider>
-
 }
